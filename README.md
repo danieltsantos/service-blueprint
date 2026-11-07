@@ -4,7 +4,7 @@ A skill that teaches Claude to build service blueprints from a concept, from res
 
 Beta · Licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) · By [Daniel Santos](https://danieltsantos.com)
 
-**[See the example](https://danieltsantos.github.io/service-blueprint/)** · **[Download the skill](https://github.com/danieltsantos/service-blueprint/releases/latest/download/service-blueprint.zip)**
+**[See the example](https://danieltsantos.github.io/service-blueprint/)** · **[Download the skill](https://github.com/danieltsantos/service-blueprint/raw/main/service-blueprint.zip)**
 
 ---
 
@@ -27,7 +27,7 @@ Try this:
 
 ## 2. Install the skill
 
-1. Download [service-blueprint.zip](https://github.com/danieltsantos/service-blueprint/releases/latest/download/service-blueprint.zip). Do not unzip it.
+1. Download [service-blueprint.zip](https://github.com/danieltsantos/service-blueprint/raw/main/service-blueprint.zip). Do not unzip it.
 2. In Claude, open **Settings**, then **Capabilities**. Turn on **Code execution and file creation**. The skill does not work without it.
 3. Go to **Customize**, then **Skills**. Click **+**, then **Create skill**.
 4. Choose **Upload a skill** and select the ZIP.
@@ -107,6 +107,7 @@ Open an [issue](https://github.com/danieltsantos/service-blueprint/issues). If y
 | `service-blueprint/` | The skill itself: instructions, notation reference, example files and scripts |
 | `service-blueprint/evals/` | Test cases used to check the skill |
 | `docs/` | The example page published at the link above |
+| `service-blueprint.zip` | The packaged skill, ready to upload to Claude |
 
 ## Licence
 
