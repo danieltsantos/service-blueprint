@@ -1,7 +1,0 @@
----
-type: llm
-focus: trace
-weight: 1
----
-
-The result matches this description: Co-build mode. The response frames scope (start trigger, end condition, primary actor, layer) and asks a small number of targeted questions, ideally for the first phase, instead of producing a full blueprint from invention. If it drafts a skeleton, every card is assumption or tbc, no owners, SLAs or numbers are invented, and it says what it needs from the user next.
