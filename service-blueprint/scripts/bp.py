@@ -18,9 +18,11 @@ COLUMNS = ["id", "phase", "step", "lane", "type", "title", "body", "basis", "sou
            "trigger", "metric", "links"]
 REQUIRED = ["id", "phase", "step", "lane", "type", "title", "basis"]
 TYPES = {"start", "end", "task", "system", "gate", "message", "agent", "exception",
-         "question", "decision", "gap", "friction", "idea", "evidence", "artefact"}
-STICKIES = {"question", "decision", "gap", "friction", "idea"}
-NO_LINK_NEEDED = STICKIES | {"start", "end", "evidence", "artefact", "exception"}
+         "question", "decision", "gap", "friction", "idea", "moment", "evidence", "artefact", "policy"}
+STICKIES = {"question", "decision", "gap", "friction", "idea", "moment"}
+NO_LINK_NEEDED = STICKIES | {"start", "end", "evidence", "artefact", "exception", "policy"}
+# Cards that can be the customer's touchpoint in a step (classic rule: one touchpoint per service moment).
+TOUCHPOINT_TYPES = {"task", "system", "gate", "message", "agent"}
 BASIS = {"evidence", "decided", "proposed", "assumption", "tbc", "gap"}
 UNVERIFIED = {"proposed", "assumption", "tbc", "gap"}
 RELEASES = {"", "R1", "R2", "R3", "RX", "TBC"}
@@ -219,7 +221,8 @@ def check(frame, cards, missing_columns=()):
     d = []
     for c in cards:
         if c["type"] == "gate":
-            outs = out_links[c["id"]]
+            # Links to policies or documents are references, not branches.
+            outs = [l for l in out_links[c["id"]] if l[1] != "artefact"]
             if len(outs) < 2:
                 d.append(f"Gate {c['id']} has {len(outs)} branch(es); needs at least 2")
             unlabelled = [t for t, _, lab in outs if not lab]
@@ -315,6 +318,17 @@ def check(frame, cards, missing_columns=()):
     if not any(c["type"] == "end" for c in cards):
         d.append("No end card")
     add("Q9", "Phases cover scope from start to end", d)
+
+    # Q10 one touchpoint per customer action
+    d = []
+    for c in cards:
+        if zone(c["id"]) == "customer" and c["type"] == "task":
+            tps = sorted({n for n in neighbours(c["id"])
+                          if zone(n) in {"evidence", "frontstage"} and by_id[n]["type"] in TOUCHPOINT_TYPES
+                          and by_id[n]["phase"] == c["phase"] and by_id[n]["_step"] == c["_step"]})
+            if len(tps) > 1:
+                d.append(f"{c['id']} '{c['title']}' uses {len(tps)} touchpoints in the same step ({', '.join(tps)}); split the step or keep one")
+    add("Q10", "One touchpoint per customer action", d)
 
     return errors, quality
 

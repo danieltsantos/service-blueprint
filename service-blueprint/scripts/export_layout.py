@@ -28,7 +28,8 @@ TYPE_STYLE = {  # fill, stroke
     "system": ("#DCEBF7", "#5F93BD"), "gate": ("#FFF4C7", "#C9A227"), "message": ("#ECEEED", "#8B928E"),
     "agent": ("#EBE3F8", "#7A5BBD"), "exception": ("#FBE1DF", "#C2413B"), "question": ("#FFF2A8", "#FFF2A8"),
     "decision": ("#D4F0CF", "#D4F0CF"), "gap": ("#FBD9E6", "#FBD9E6"), "friction": ("#FFDCBC", "#FFDCBC"),
-    "idea": ("#E3F4D6", "#E3F4D6"), "evidence": ("#D7EFEB", "#2D8A7D"), "artefact": ("#FFFFFF", "#9AA29D"),
+    "idea": ("#E3F4D6", "#E3F4D6"), "moment": ("#FFE0F0", "#FFE0F0"), "evidence": ("#D7EFEB", "#2D8A7D"),
+    "policy": ("#EEF0F6", "#5A6487"), "artefact": ("#FFFFFF", "#9AA29D"),
 }
 LINK_STYLE = {"action": ("#2B322E", "solid"), "system": ("#7C8580", "dashed"),
               "message": ("#2A6FB0", "dashed"), "artefact": ("#9AA29D", "dotted")}

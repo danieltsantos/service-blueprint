@@ -66,6 +66,7 @@ lanes:
   - {id: netops, name: "Network operations", zone: support}
   - {id: dispatch, name: "Contractor dispatch", zone: support}
   - {id: billing, name: "Billing", zone: support}
+  - {id: rules, name: "Policies and rules", note: "Contracts, policies, agent guardrails", zone: support}
   - {id: docs, name: "Supporting documents", zone: artefacts}
   - {id: exc, name: "Exceptions & edge cases", zone: exceptions}
 

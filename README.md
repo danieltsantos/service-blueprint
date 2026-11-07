@@ -65,7 +65,11 @@ To change something, ask in plain words: "add a lane for the delivery partner" o
 
 ## 5. How to read the blueprint
 
-**Lanes and lines.** From top to bottom: what the customer receives, what the customer does, the line of interaction, what the customer sees (systems, AI assistant, people), the line of visibility, backstage work, the line of internal interaction, and support processes. Supporting documents and exceptions sit at the bottom.
+**Lanes and lines.** From top to bottom: what the customer receives, what the customer does, the line of interaction, what the customer sees (systems, AI assistant, people), the line of visibility, backstage work, the line of internal interaction, and support processes. Policies and rules (laws, contracts, guardrails for AI agents) sit with the support processes. Supporting documents and exceptions sit at the bottom.
+
+**Columns.** Each column starts with one customer action and its one touchpoint: a screen, a message or a person. Read left to right in time. Arrows start at whoever starts the interaction.
+
+**Markers.** A § card is a rule in force at that step, linked to the decision it drives. A ★ card is a key moment: the step that matters most to the customer, or a moment of delight. Orange stickies are pain points, placed in the lane of whoever feels them. Durations and other measures sit on the card they measure.
 
 **Where each card comes from.** Every card has a basis:
 
@@ -87,6 +91,7 @@ To change something, ask in plain words: "add a lane for the delivery partner" o
 ## 6. Tips
 
 - Say up front whether it is as-is or to-be, which level, and where the service starts and ends.
+- Pick one scenario and start with the most common path. A blueprint is not a process map. Problem paths that happen often get their own blueprint.
 - Review the skeleton before Claude adds exceptions. Changing the structure early is cheap.
 - Give sources. Without them Claude marks almost everything as an assumption, and it is right to.
 - Summaries made with AI count as secondary sources. Claude treats them that way.
@@ -109,8 +114,16 @@ Open an [issue](https://github.com/danieltsantos/service-blueprint/issues). If y
 |---|---|
 | `service-blueprint/` | The skill itself: instructions, notation reference, example files and scripts |
 | `service-blueprint/evals/` | Test cases used to check the skill |
-| `docs/` | The example page published at the link above |
+| `docs/` | The two example pages published at the links above, and the data files of the Portuguese example |
 | `service-blueprint.zip` | The packaged skill, ready to upload to Claude |
+
+## Method
+
+The skill follows classic service blueprinting practice and adds what services with AI agents need: lanes for agents and their handoffs to people, and a basis on every card that says where it comes from. The method comes from:
+
+- Adaptive Path, [*A Guide to Service Blueprinting*](https://dga.or.th/upload/download/file_26e487aea69af163911dc4f6e6b8abd4.pdf), 2016. Licence CC BY-NC 3.0.
+- Erik Flowers and Megan Erin Miller, *Your Guide to Blueprinting the Practical Way*, Practical by Design, 2022.
+- Gerry Scullion, *7 Ways to Power up your Journey Mapping Skills*, 2024.
 
 ## Licence
 

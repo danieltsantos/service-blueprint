@@ -19,7 +19,7 @@ Infer the mode from the request and the inputs. Say which mode you chose in one 
 | **Concept → to-be** (most common) | Concept note, BRD/PRD, decision log, workshop output | Most cards will be Decided, Proposed or TBC. The value is making the concept's gaps, owners and failure paths visible. |
 | **Research → blueprint** | Transcripts, interview notes, journey maps, process docs, support or contact data | Most cards should be Evidence. As-is first; to-be as a delta if asked. |
 | **Co-build by interview** | A description and little else | Ask in rounds, one phase at a time. Do not fill gaps with invention. Write what the user tells you into the card table as you go. |
-| **Critique** | An existing blueprint (PDF, image, FigJam/Miro board) | Run the quality checks in section 9. Judge the blueprint against its own legend first, then against these conventions. Do not redraw unless asked. |
+| **Critique** | An existing blueprint (PDF, image, FigJam/Miro board) | Run the quality checks in section 12. Judge the blueprint against its own legend first, then against these conventions. Do not redraw unless asked. |
 
 ## 2. Frame before building
 
@@ -27,6 +27,8 @@ Settle these points. Infer what you can from the inputs. Ask only about points t
 
 - **State**: as-is, to-be, or both. For both, build as-is first, then mark the to-be changes with release tags.
 - **Scope**: one service outcome per blueprint, with a named start trigger and end condition.
+- **Scenario**: a blueprint follows one concrete scenario through time, named and summed up in one sentence. Start with the primary success path: the most common path, or the one you want most people to have. Secondary success paths (another channel) and problem paths (a painful, known, repeatable failure) get their own blueprints, which cover only the steps that differ and say where they leave the primary one. A blueprint is not a process map: do not draw every branch on one board.
+- **Step size**: each step is one key action ("customer compares two plans"), not a click ("clicks Compare") nor a whole phase ("buys broadband"). Keep every step in a row at the same zoom level. About 15 to 20 customer steps make a good scenario; past that, split into L1 blueprints.
 - **Primary actor** and **variants** (tier, country, channel, segment).
 - **Layer**, in journey management terms:
   - **L0**: the end-to-end, strategic journey. Few cards per phase, every lane present.
@@ -36,6 +38,8 @@ Settle these points. Infer what you can from the inputs. Ask only about points t
   Default to L0 for a first pass. An L1 or L2 blueprint names its parent and the parent card IDs it expands (`parent` in the frame file), so readers can move between levels and the levels do not contradict each other.
 - **Language**: English or European Portuguese, as the user asks or as the prompt is written. Set `language` in the frame file to match: the renderers use it for the page's own labels, controls, check messages and template credit, so a Portuguese blueprint has no English interface text. IDs, tags and notation stay identical in both languages so boards can be compared.
 - **Output target**: see section 10.
+
+Before pass 1, check that the inputs cover the customer's actions, a touchpoint for each, frontstage and backstage staff, support processes and the policies in force. Name what is missing in your reply. Ask about it when the user is present; otherwise carry on with `gap` or `tbc` cards rather than filling it in.
 
 ## 3. Inventory the sources
 
@@ -90,10 +94,13 @@ Full notation, card types, connectors and examples are in `references/notation.m
 10. Backstage people and operations
 11. *Line of internal interaction*
 12. Support processes and third parties, one lane per real system or team
-13. Supporting documents and artefacts
-14. Exceptions and edge cases
+13. Policies and rules: laws, regulations, internal policies, business rules, agent guardrails
+14. Supporting documents and artefacts
+15. Exceptions and edge cases
 
 Rename lanes to the real actors and systems. Drop empty lanes. Split a lane when two actors with different owners share it.
+
+Customer actions are the spine: every column is a service moment that starts with what the customer does, read left to right in time. Give each customer action one touchpoint, the medium of exchange at that moment (a screen, a message, a person). Two touchpoints in one step hide complexity, so split the step.
 
 Place a lane by what the customer can see, not by who employs the actor. A contractor's technician who visits the customer's site is frontstage for that visit even though the company does not employ them. When an actor is visible in some steps and invisible in others, either give them a frontstage lane for the visible steps or keep one support lane and mark the visible steps with a connector that crosses the line of interaction. State which choice you made in the frame file, because readers otherwise misread the lines.
 
@@ -101,8 +108,8 @@ Place a lane by what the customer can see, not by who employs the actor. A contr
 
 A blueprint at this density overloads a single pass, and a half-finished single pass is hard to review. Build in this order and save the card table after each pass:
 
-1. **Skeleton**: frame file, phases, lanes, the happy path for the primary actor. Trace every customer action down (section 7).
-2. **Logic**: gates with labelled branches, status models, messages, connectors.
+1. **Skeleton**: frame file, phases, lanes, the primary success path. Write the customer actions across first, then fill each column top to bottom before moving to the next (section 7). A finished column is useful on its own; a finished top row is not.
+2. **Logic**: gates with labelled branches, status models, messages, connectors, and the policies each gate applies. Draw each link from the card that starts the interaction, and place backstage work in the column where it starts.
 3. **Exceptions**: run the exception prompts per phase (section 8).
 4. **Scope and references**: release tags, variants, supporting artefacts, metrics.
 
@@ -118,7 +125,7 @@ A card with no connection in or out is either a start, an end, a note, or a mist
 
 **Status models**: if the customer sees statuses (order, booking, application, ticket, payment), define each status model in the frame file: the states, and the event that sets each one. Put the new status in `cx_status` on the card where it changes. Frontstage promises and backstage reality most often disagree here, so check that every status the customer can see is set by some card, and that no card sets a status the model lacks.
 
-## 8. Exceptions
+## 8. Exceptions and diagnostic markers
 
 For each phase, ask:
 
@@ -133,6 +140,17 @@ For each phase, ask:
 - For AI agents: a wrong or unsupported answer, low confidence, a tool or retrieval failure, missing context or permissions, the customer rejecting the answer, a handoff to a human that fails or loses context.
 
 Write each real exception as an exception card (`phase.Xn`) with an `exc_status` (`open`, `workaround`, `risk`, `decided`), what happens, an `owner`, and a `cx_risk` (what the customer suffers if it goes wrong). An exception nobody owns is one of the most useful things a blueprint can show, so keep `owner: unassigned` visible rather than guessing a team.
+
+Keep edge cases on the exceptions lane of this blueprint. Spin a problem path out into its own blueprint only when it is frequent or costly enough to need its own sequence of steps.
+
+Then mark what a team needs to diagnose the service, each on the card or column it belongs to:
+
+- **Breakdowns**: `exception` cards, as above.
+- **Pain points**: `friction` stickies, in the lane of whoever feels them. Staff pain points count as much as customer ones.
+- **Unsupported moments**: `gap` stickies where nothing backs a step.
+- **Key moments**: `moment` stickies on the few steps that decide the outcome or the customer's view of it, and on moments of delight.
+- **Policies**: `policy` cards for the rules in force, linked from the gates and steps they govern.
+- **Durations and satisfaction**: in `metric` on the card they measure.
 
 ## 9. AI agents
 
@@ -160,6 +178,8 @@ python scripts/check_blueprint.py <slug>-frame.yaml <slug>-cards.csv
 ```
 
 Then render to the target the user wants. `references/rendering.md` covers each one. In short:
+
+- **Markdown table** (in the chat only): a quick preview of the skeleton, lanes as rows and steps as columns. Never draw the whole blueprint in Mermaid or PlantUML: they cannot keep cards in lanes and columns.
 
 - **HTML** (cheapest high-fidelity view): `python scripts/render_html.py <frame> <cards> -o <slug>.html`, then publish the page as an artifact. Use this for drafts and reviews even when the final target is FigJam or Miro.
 - **Spreadsheet**: the CSV itself, or a Sheets artifact or .xlsx built from it.
@@ -194,6 +214,9 @@ Run these before delivering. They are also the checklist for critique mode. The 
 8. To-be: every card outside the first release is tagged, and open decisions are `tbc` cards rather than silent choices.
 9. The phases cover the scope from start trigger to end condition, with no unexplained jump.
 10. The blueprint passes the test for done at the top of this file.
+11. ★ Each customer action has one touchpoint in its step.
+12. Steps sit at one zoom level, and the main row follows one scenario path rather than every branch.
+13. Key moments, pain points and the policies in force are marked where the inputs support them.
 
 Report failed checks to the user. Do not hide them to make the result look finished.
 
@@ -202,8 +225,18 @@ Report failed checks to the user. Do not hide them to make the result look finis
 - The rendered blueprint (artifact, board link or file).
 - The frame file and card table.
 - A short list of what needs a decision: exceptions without owners, `tbc` cards, `gap` cards, failed checks. This list is usually what the team acts on first.
+- Who should validate the board: the roles that know each lane. A blueprint built from documents is a draft until the people who do the work have checked it, so keep `status: WIP` until then.
+- When the user asks for next steps: group pain points, exceptions, gaps and key moments into a few themes, each with a one-line problem statement, the tactical fixes and strategic changes it suggests, and a suggested owner.
 
 In critique mode, deliver findings ordered by impact. Separate what the blueprint states, what you infer from it, and your judgement. Preserve the author's notation and terms when you quote it.
+
+## Method sources
+
+The structure follows classic service blueprinting practice, adapted for services with AI agents:
+
+- Adaptive Path, *A Guide to Service Blueprinting*, 2016 (CC BY-NC 3.0): lanes, lines, one touchpoint per moment, flow lines, zoom, most common path first, key moments, breakdowns and other secondary data.
+- Erik Flowers and Megan Erin Miller, *Your Guide to Blueprinting the Practical Way*, 2022: scenarios, step size, visible and hidden steps, policy layer, column-by-column filling, turning the board into actions.
+- Gerry Scullion, *7 Ways to Power up your Journey Mapping Skills*, 2024: as-is before to-be, zoom levels, plain language, one person in focus.
 
 ## Credits
 

@@ -26,7 +26,7 @@ header:
       - "As regras do serviço e os números vêm de fontes públicas. A loja, a pessoa e as entrevistas são inventadas."
   - heading: O que é real e o que é inventado
     items:
-      - "Etiqueta «Fonte pública»: regras de marcação, senhas, atendimento prioritário, Espaços Cidadão, Loja de Cidadão Virtual, Livro Amarelo e indicadores de dados abertos (G1 a G8)."
+      - "Etiqueta «Fonte pública»: regras de marcação, senhas, atendimento prioritário, Espaços Cidadão, Loja de Cidadão Virtual, Livro Amarelo e indicadores de dados abertos (G1 a G8). As regras em vigor estão na faixa «Regras e políticas»."
       - "Etiqueta «Ficção»: a Loja de Cidadão de Lagoa Serena, a Teresa, as entrevistas e a observação (F1, F2). Não descrevem nenhuma loja nem nenhuma pessoa real."
       - "Sem etiqueta: inferências por confirmar (pressupostos e questões em aberto)."
       - "O chip «Fonte pública» esbate a ficção."
@@ -90,6 +90,7 @@ lanes:
   - {line: internal}
   - {id: backoffice, name: "Entidades públicas", note: "Backoffice, respostas e serviços online", zone: support}
   - {id: dados, name: "Dados abertos", note: "dados.gov.pt", zone: support}
+  - {id: regras, name: "Regras e políticas", note: "Leis e regras do serviço", zone: support}
   - {id: docs, name: "Documentos de suporte", zone: artefacts}
   - {id: exc, name: "Exceções e casos-limite", zone: exceptions}
 

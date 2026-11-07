@@ -125,16 +125,22 @@ CSV, UTF-8, one row per card. Leave cells empty when they do not apply. Quote ce
 | `question` | Open question sticky | Yellow sticky |
 | `decision` | Decision sticky ("DECIDED: ...") | Green sticky |
 | `gap` | Gap sticky ("GAP: ...") | Pink sticky |
-| `friction` | Known friction, usually from research | Orange sticky |
+| `friction` | Pain point, usually from research. Put it in the lane of whoever feels it: customer or staff | Orange sticky |
 | `idea` | Improvement idea or "ideal CX" note | Light green sticky |
+| `moment` | Key moment: a step that matters most to the customer or the outcome, or a moment of delight. Say which in the body | Pink sticky with a star |
 | `evidence` | A research finding attached to a step | Teal box with source |
+| `policy` | A rule in force at this step: law, regulation, internal policy, business rule, agent guardrail. Name its source | Grey-blue box with a § marker, in the policies lane |
 | `artefact` | A linked document, design, ticket, comms asset | Box with link, in the artefacts lane |
 
-Stickies (`question` to `idea`) do not need links. Every other type except `start`, `end`, `evidence` and `artefact` should have at least one link in or out.
+Stickies (`question` to `moment`) do not need links. Every other type except `start`, `end`, `evidence`, `policy` and `artefact` should have at least one link in or out. Link a gate or step to the `policy` that governs it with an `artefact` link, so readers see which rule drives which decision.
+
+**Touchpoints.** A customer action's touchpoint is the card it connects to in the same step, in the touchpoints lane or a frontstage lane: a screen, a message, a person. Keep one touchpoint per customer action. Two in the same step usually hide two steps, so split them. The checker flags it (Q10).
+
+**Durations and step metrics.** Put a measured duration or a satisfaction figure in `metric` on the card it measures ("Median wait 18 min"). When phases run on different time scales (minutes in one, days in another), say so in the phase subtitle.
 
 ## 4. Connectors and `links`
 
-Write outgoing links in the source card's `links` cell:
+Write each link on the card that starts the interaction, in its `links` cell. Place backstage work in the column where it starts, not where its result shows up.
 
 ```
 target>type:label; target>type:label
@@ -212,4 +218,9 @@ Use Portuguese as written in Portugal today, never Brazilian Portuguese. Vocabul
 | Gap | Lacuna |
 | Status model | Modelo de estados |
 | Supporting documents | Documentos de suporte |
+| Policy or rule | Regra ou política |
+| Key moment | Momento-chave |
+| Pain point | Ponto de dor |
+| Scenario | Cenário |
+| Primary success path / problem path | Caminho principal / caminho com problemas |
 | Release | Release (keep R1, R2, RX) |

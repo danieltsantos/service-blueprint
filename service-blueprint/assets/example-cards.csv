@@ -3,7 +3,7 @@ start,1,1,customer,start,Start: business needs broadband,,decided,S1,,,,,,,,,1.1
 1.1,1,1,customer,task,Enters the business address,On the website.,evidence,S2,,,,,,,,,1.2
 1.2,1,2,web,system,⚙️ Checks address coverage,,decided,S1,,,,,,,,,1.3>system
 1.3,1,3,netops,gate,Is fibre available at this address?,,evidence,S1,,,,,,,,,1.4>system:Fibre; 1.5>system:Copper only
-1.4,1,4,web,system,⚙️ Shows install slots,Slots come from contractor capacity.,decided,S1,,,,Fibre,,,,,1.6
+1.4,1,4,web,system,⚙️ Shows install slots,Slots come from contractor capacity.,decided,S1,,,,Fibre,,,,,1.6; 1.P1>artefact
 1.5,1,4,web,system,⚙️ Offers the copper plan,Lower speed. Same install flow.,decided,S4,,,R2,Copper,,,,,1.6
 1.6,1,5,customer,task,Picks a slot and pays,,evidence,S2,,,,,,,,,1.7>system
 1.N1,1,5,customer,friction,Slots clash with opening hours,Raised in interviews.,evidence,S2,,,,,,,,,
@@ -13,7 +13,7 @@ start,1,1,customer,start,Start: business needs broadband,,decided,S1,,,,,,,,,1.1
 1.9,1,7,customer,task,👀 Reads what to prepare,Router location and building access.,evidence,S2,,,,,,,,,
 1.X1,1,5,exc,exception,Address not found,A new-build address the coverage check does not know.,gap,,unassigned,,,,open,Customer abandons the order,,,
 2.1,2,1,netops,system,⚙️ Tests the line remotely,,decided,S1,,,,,,,,,2.2>system
-2.2,2,2,netops,gate,Does the line pass the test?,,decided,S1,,,,,,,,,2.3>system:Pass; 2.4>action:Fail
+2.2,2,2,netops,gate,Does the line pass the test?,,decided,S1,,,,,,,,,2.3>system:Pass; 2.4>action:Fail; 2.P1>artefact
 2.3,2,3,oms,system,⚙️ Confirms the visit,,decided,S1,,Visit confirmed,,,,,,,2.M1>message:notifies
 2.4,2,3,netops,task,Engineer fixes the line fault,Street work may move the visit.,assumption,S3,,,,,,,,,2.5>system
 2.5,2,4,oms,system,⚙️ Moves the visit date,,decided,S4,,,R2,,,,,,2.M2>message:notifies; 1.8>system:rebook
@@ -21,7 +21,7 @@ start,1,1,customer,start,Start: business needs broadband,,decided,S1,,,,,,,,,1.1
 2.M2,2,5,touch,message,✉️ Your visit has moved,New date and the reason.,proposed,,,,R2,,,,,,2.6
 2.6,2,5,customer,task,Wants a different slot,,evidence,S2,,,,,,,,,2.7
 2.7,2,6,ai-front,agent,🤖 Offers new slots,Reads contractor capacity. Books the slot the customer picks.,proposed,,,,RX,,,,Customer asks to change the visit,Rebooked without care,2.8>system
-2.8,2,6,ai-ops,agent,🤖 Checks the change is allowed,Changes close to the visit go to care with a summary.,proposed,,,,RX,,,,Rebook requested,Handoff rate,1.8>system:allowed; 2.9>action:handoff
+2.8,2,6,ai-ops,agent,🤖 Checks the change is allowed,Changes close to the visit go to care with a summary.,proposed,,,,RX,,,,Rebook requested,Handoff rate,1.8>system:allowed; 2.9>action:handoff; 2.P2>artefact
 2.N1,2,7,ai-ops,question,How close to the visit can a customer rebook online?,No cut-off agreed.,tbc,,,,RX,,,,,,
 2.9,2,7,care,task,🛟 Care rebooks by phone,,decided,S1,,,,,,,,,1.8>system
 2.X1,2,5,exc,exception,Line test fails twice,No rule for when to cancel or offer copper.,gap,,unassigned,,,,open,Customer waits with no date,,,
@@ -29,7 +29,7 @@ start,1,1,customer,start,Start: business needs broadband,,decided,S1,,,,,,,,,1.1
 3.2,3,2,tech,task,Arrives on site,Calls ahead.,evidence,S2,,,,,,,,,3.3
 3.3,3,3,customer,task,Lets the technician in,Shows where the router goes.,evidence,S2,,,,,,,,,3.4
 3.N1,3,3,customer,evidence,Shop closed for the morning,Interviewees closed while waiting for the technician.,evidence,S2,,,,,,,,,
-3.4,3,4,tech,task,Installs and tests the router,,decided,S1,,,,,,,,,3.5; 3.D1>artefact
+3.4,3,4,tech,task,Installs and tests the router,,decided,S1,,,,,,,,Median install time: 90 min,3.5; 3.D1>artefact
 3.D1,3,4,docs,artefact,Technician install checklist,,evidence,S1,,,,,,,,,
 3.5,3,5,tech,gate,Does the line sync?,,decided,S1,,,,,,,,,3.6>system:YES; 3.7>action:NO
 3.6,3,6,oms,system,⚙️ Marks the order installed,,decided,S1,,Installed,,,,,,,4.1>system
@@ -47,3 +47,9 @@ start,1,1,customer,start,Start: business needs broadband,,decided,S1,,,,,,,,,1.1
 4.N2,4,5,billing,idea,Show the part-month calculation on the bill,,proposed,,,,,,,,,,
 4.6,4,6,customer,task,👀 Checks the first bill,,evidence,S2,,,,,,,,,end
 end,4,7,customer,end,End: line live and first bill understood,,decided,S1,,,,,,,,,
+1.P1,1,4,rules,policy,"Installs on weekdays only, 8:00 to 18:00",Contractor agreement. Shapes which slots the site can offer.,decided,S4,,,,,,,,,
+2.P1,2,2,rules,policy,A visit is confirmed only after the line test passes,,decided,S1,,,,,,,,,
+2.P2,2,6,rules,policy,"The assistant may offer and book slots, never cancel an order",Guardrail for the rebooking agent.,proposed,,,,RX,,,,,,
+3.N2,3,2,customer,moment,Key moment: the technician arrives inside the booked window,Interviewees judged the whole service on this.,evidence,S2,,,,,,,,,
+4.N3,4,4,customer,moment,Moment of delight: the first speed test beats the plan,Confirm with a post-install survey.,assumption,,,,,,,,,,
+3.N3,3,4,tech,friction,Job sheet has no building access details,Staff pain point. Confirm with technicians.,assumption,,,,,,,,,,

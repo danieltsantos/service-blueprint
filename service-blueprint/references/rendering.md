@@ -52,13 +52,15 @@ The CSV opens in any spreadsheet. If the session lists a Sheets artifact type, c
    `use_figma` accepts at most 50,000 characters of code per call. Above roughly 40 cards, send one phase per call.
 4. **Draw in this order**, one call each:
    - Scaffold: lane bands as rectangles from `lanes`, lane labels, the three lines as dashed lines at `lines[].y`, phase headers from `phases`.
-   - Cards, per phase: a shape with text per card at its `x`, `y`, `w`, filled with `fill` and stroked with `stroke`; sticky notes for `question`, `decision`, `gap`, `friction` and `idea`. Name every node with the card ID so later calls can find it.
+   - Cards, per phase: a shape with text per card at its `x`, `y`, `w`, filled with `fill` and stroked with `stroke`; sticky notes for `question`, `decision`, `gap`, `friction`, `idea` and `moment`. Name every node with the card ID so later calls can find it.
    - Connectors, per phase: find both nodes by name and connect them, using `colour`, `dash` and `label` from `links`.
    Paste the layout JSON into the code as a constant and loop over it. Never retype card text by hand inside drawing code: that is where content drifts from the table.
    - Credit: one small grey text node under the board, right-aligned, from `credit` in the layout JSON (see Credits in SKILL.md).
 5. **Check once** with `get_screenshot` on the board. Fix what is visibly wrong in one pass. Card heights in the layout are estimates; let text auto-size and grow lane bands if cards overflow.
 
-Do not use `generate_diagram` (Mermaid) for the full blueprint: it cannot hold cards to lanes and columns. It works well for a status model (`stateDiagram-v2`) or a quick flow sketch of one phase.
+Do not draw the full blueprint in Mermaid (`generate_diagram`) or PlantUML: neither can hold cards to lanes and columns, and the lines of interaction and visibility get lost. Mermaid works well for a status model (`stateDiagram-v2`) or a quick flow sketch of one phase.
+
+For a quick look in the chat, for example to review the skeleton after pass 1, print a Markdown table: one row per lane in board order, the three lines as rows of dashes, one column per step, card IDs and short titles in the cells. It is a preview, not a deliverable.
 
 ## 5. Miro
 

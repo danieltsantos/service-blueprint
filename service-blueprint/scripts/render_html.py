@@ -35,11 +35,13 @@ LINE_LABEL_PT = {"interaction": "Linha de interação", "visibility": "Linha de 
 TYPE_LABEL = {"start": "Start / end", "task": "Task", "system": "System", "gate": "Gate",
               "message": "Message", "agent": "AI agent", "exception": "Exception",
               "question": "Question", "decision": "Decision", "gap": "Gap",
-              "friction": "Friction", "idea": "Idea", "evidence": "Evidence", "artefact": "Artefact"}
+              "friction": "Pain point", "idea": "Idea", "moment": "Key moment", "evidence": "Evidence",
+              "policy": "Policy or rule", "artefact": "Artefact"}
 TYPE_LABEL_PT = {"start": "Início / fim", "task": "Tarefa", "system": "Sistema", "gate": "Ponto de decisão",
                  "message": "Mensagem", "agent": "Agente de IA", "exception": "Exceção",
                  "question": "Questão", "decision": "Decisão", "gap": "Lacuna",
-                 "friction": "Fricção", "idea": "Ideia", "evidence": "Evidência", "artefact": "Artefacto"}
+                 "friction": "Ponto de dor", "idea": "Ideia", "moment": "Momento-chave", "evidence": "Evidência",
+                 "policy": "Regra ou política", "artefact": "Artefacto"}
 
 # Interface strings. The page follows `language` in the frame file: pt-PT gets "pt", anything else "en".
 # Card content is never translated; only the page's own labels, controls and check messages.
@@ -97,6 +99,7 @@ UI = {
             "Q7": "Linhas presentes e faixas do lado certo",
             "Q8": "Decisões em aberto visíveis; cartões de agente completos",
             "Q9": "As fases cobrem o âmbito do início ao fim",
+            "Q10": "Um ponto de contacto por ação do cliente",
         },
     },
 }
@@ -144,6 +147,8 @@ _DETAIL_PT = [
     (r"^Phase (\S+) has no cards$", lambda m: f"A fase {m[1]} não tem cartões"),
     (r"^No start card$", lambda m: "Sem cartão de início"),
     (r"^No end card$", lambda m: "Sem cartão de fim"),
+    (r"^(\S+) '(.*)' uses (\d+) touchpoints in the same step \((.*)\); split the step or keep one$",
+     lambda m: f"{m[1]} «{m[2]}» usa {m[3]} pontos de contacto no mesmo passo ({m[4]}); dividir o passo ou manter um"),
 ]
 
 
@@ -399,7 +404,7 @@ TEMPLATE = """<title>{title}</title>
   --z-support: #dfe8df; --z-artefacts: #e4efe2; --z-exceptions: #f6e4d6;
   --t-system: #dcebf7; --t-system-b: #5f93bd; --t-gate: #fff4c7; --t-gate-b: #c9a227; --t-message: #eceeed; --t-message-b: #8b928e;
   --t-agent: #ebe3f8; --t-agent-b: #7a5bbd; --t-exc: #fbe1df; --t-exc-b: #c2413b; --t-risk: #fdebd3; --t-risk-b: #d07a1c;
-  --s-question: #fff2a8; --s-decision: #d4f0cf; --s-gap: #fbd9e6; --s-friction: #ffdcbc; --s-idea: #e3f4d6; --t-evidence: #d7efeb; --t-evidence-b: #2d8a7d;
+  --s-question: #fff2a8; --s-decision: #d4f0cf; --s-gap: #fbd9e6; --s-friction: #ffdcbc; --s-idea: #e3f4d6; --s-moment: #ffe0f0; --t-policy: #eef0f6; --t-policy-b: #5a6487; --t-evidence: #d7efeb; --t-evidence-b: #2d8a7d;
   --l-action: #2b322e; --l-system: #7c8580; --l-message: #2a6fb0; --l-artefact: #9aa29d;
   --line-interaction: #2e8b57; --line-visibility: #2a6fb0; --line-internal: #1b9aa8;
   --rel: #116d73; --rel-fg: #ffffff; --warn: #b3261e;
@@ -415,7 +420,7 @@ TEMPLATE = """<title>{title}</title>
   --z-support: #23322a; --z-artefacts: #253326; --z-exceptions: #3d2c21;
   --t-system: #1d3142; --t-system-b: #6ea3cf; --t-gate: #3b3415; --t-gate-b: #d8b43c; --t-message: #2a302d; --t-message-b: #8b928e;
   --t-agent: #2f2742; --t-agent-b: #a88be6; --t-exc: #45211f; --t-exc-b: #e0645d; --t-risk: #42301b; --t-risk-b: #e59a45;
-  --s-question: #4a4419; --s-decision: #24402a; --s-gap: #46283a; --s-friction: #4a3420; --s-idea: #2d3d22; --t-evidence: #173b36; --t-evidence-b: #4fb6a6;
+  --s-question: #4a4419; --s-decision: #24402a; --s-gap: #46283a; --s-friction: #4a3420; --s-idea: #2d3d22; --s-moment: #4a2338; --t-policy: #252a38; --t-policy-b: #9aa6d6; --t-evidence: #173b36; --t-evidence-b: #4fb6a6;
   --l-action: #d4dbd6; --l-system: #8e9893; --l-message: #6aa8e0; --l-artefact: #6b746f;
   --line-interaction: #5cc189; --line-visibility: #6aa8e0; --line-internal: #4cc3cf;
   --rel: #3fb0b6; --rel-fg: #0d1513; --warn: #f08a82; color-scheme: dark;
@@ -427,7 +432,7 @@ TEMPLATE = """<title>{title}</title>
   --z-support: #23322a; --z-artefacts: #253326; --z-exceptions: #3d2c21;
   --t-system: #1d3142; --t-system-b: #6ea3cf; --t-gate: #3b3415; --t-gate-b: #d8b43c; --t-message: #2a302d; --t-message-b: #8b928e;
   --t-agent: #2f2742; --t-agent-b: #a88be6; --t-exc: #45211f; --t-exc-b: #e0645d; --t-risk: #42301b; --t-risk-b: #e59a45;
-  --s-question: #4a4419; --s-decision: #24402a; --s-gap: #46283a; --s-friction: #4a3420; --s-idea: #2d3d22; --t-evidence: #173b36; --t-evidence-b: #4fb6a6;
+  --s-question: #4a4419; --s-decision: #24402a; --s-gap: #46283a; --s-friction: #4a3420; --s-idea: #2d3d22; --s-moment: #4a2338; --t-policy: #252a38; --t-policy-b: #9aa6d6; --t-evidence: #173b36; --t-evidence-b: #4fb6a6;
   --l-action: #d4dbd6; --l-system: #8e9893; --l-message: #6aa8e0; --l-artefact: #6b746f;
   --line-interaction: #5cc189; --line-visibility: #6aa8e0; --line-internal: #4cc3cf;
   --rel: #3fb0b6; --rel-fg: #0d1513; --warn: #f08a82; color-scheme: dark;
@@ -508,14 +513,18 @@ h3 {{ font-family: var(--f-display); font-weight: 600; font-size: 15px; text-tra
 .t-exception.e-decided {{ background: var(--surface); border-color: var(--rule); }}
 .t-evidence {{ background: var(--t-evidence); border-color: var(--t-evidence-b); }}
 .t-artefact {{ border-style: dotted; }}
+.t-policy {{ background: var(--t-policy); border-color: var(--t-policy-b); border-left-width: 4px; }}
+.t-policy .ctitle::before {{ content: "\\00A7  "; color: var(--t-policy-b); }}
+.t-moment .ctitle::before {{ content: "\\2605  "; }}
 .sticky {{ border: none; border-radius: 2px; box-shadow: 0 1px 2px rgb(0 0 0 / .18); }}
 .t-question {{ background: var(--s-question); }} .t-decision {{ background: var(--s-decision); }} .t-gap {{ background: var(--s-gap); }}
-.t-friction {{ background: var(--s-friction); }} .t-idea {{ background: var(--s-idea); }}
+.t-friction {{ background: var(--s-friction); }} .t-idea {{ background: var(--s-idea); }} .t-moment {{ background: var(--s-moment); }}
 .sw.t-system {{ background: var(--t-system); border-color: var(--t-system-b); }} .sw.t-gate {{ background: var(--t-gate); border-color: var(--t-gate-b); }}
 .sw.t-message {{ background: var(--t-message); border-color: var(--t-message-b); }} .sw.t-agent {{ background: var(--t-agent); border-color: var(--t-agent-b); }}
 .sw.t-exception {{ background: var(--t-exc); border-color: var(--t-exc-b); }} .sw.t-evidence {{ background: var(--t-evidence); border-color: var(--t-evidence-b); }}
 .sw.t-question {{ background: var(--s-question); border: 0; }} .sw.t-decision {{ background: var(--s-decision); border: 0; }} .sw.t-gap {{ background: var(--s-gap); border: 0; }}
 .sw.t-friction {{ background: var(--s-friction); border: 0; }} .sw.t-idea {{ background: var(--s-idea); border: 0; }} .sw.t-artefact {{ border-style: dotted; }}
+.sw.t-moment {{ background: var(--s-moment); border: 0; }} .sw.t-policy {{ background: var(--t-policy); border-color: var(--t-policy-b); border-left-width: 3px; }}
 .b-tbc.t-task, .b-tbc.t-system {{ border-style: dashed; }}
 .board.spotlight .card.b-evidence, .board.spotlight .card.b-decided {{ opacity: .28; }}
 .card.dim {{ opacity: .12; filter: grayscale(1); }}
