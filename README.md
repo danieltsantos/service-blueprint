@@ -4,7 +4,7 @@ A skill that teaches Claude to build service blueprints from a concept, from res
 
 Beta · Licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) · By [Daniel Santos](https://danieltsantos.com)
 
-**[See the example](https://danieltsantos.github.io/service-blueprint/)** · **[Download the skill](https://github.com/danieltsantos/service-blueprint/raw/main/service-blueprint.zip)**
+**[See the example](https://danieltsantos.github.io/service-blueprint/)** · **[Exemplo em português](https://danieltsantos.github.io/service-blueprint/exemplo-pt.html)** · **[Download the skill](https://github.com/danieltsantos/service-blueprint/raw/main/service-blueprint.zip)**
 
 ---
 
@@ -17,6 +17,8 @@ Beta · Licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) 
 ## 1. Look at the example
 
 Open the [example](https://danieltsantos.github.io/service-blueprint/). It is an invented blueprint for installing broadband at a small shop.
+
+There is also an [example in European Portuguese](https://danieltsantos.github.io/service-blueprint/exemplo-pt.html): visiting a Loja de Cidadão. Its rules and figures come from public sources; the shop, the person and the interviews are fictional, and the **Fonte pública** chip fades the fiction. Its data files are in [`docs/exemplo-pt`](docs/exemplo-pt).
 
 Try this:
 

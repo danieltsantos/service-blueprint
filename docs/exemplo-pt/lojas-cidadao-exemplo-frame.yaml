@@ -1,0 +1,107 @@
+# Exemplo híbrido: regras e dados reais de fontes públicas (Gn) + loja, pessoa e entrevistas fictícias (Fn).
+title: Exemplo Lojas de Cidadão
+deliverable: "Blueprint de serviço L0 As Is: tratar de assuntos numa Loja de Cidadão, com regras e dados públicos reais e uma pessoa e uma loja fictícias"
+owner: Por atribuir
+last_updated: 2026-11-07
+state: as-is
+layer: L0
+status: WIP
+language: pt-PT
+attribution:
+  author: Daniel Santos
+  url: https://danieltsantos.com
+  year: 2026
+  licence: CC BY-NC 4.0
+  licence_url: https://creativecommons.org/licenses/by-nc/4.0/
+  note: "Exemplo feito com a skill service-blueprint. Regras e dados de fontes públicas citadas; a loja, a pessoa e as entrevistas são fictícias."
+lane_policy: >
+  O assistente do Espaço Cidadão e o atendimento por videochamada estão no frontstage porque o cidadão fala com eles.
+  O SIGA aparece duas vezes: a parte que o cidadão usa (portal e SigaApp) está na faixa dos canais digitais; o que regista e chama senhas está no backstage.
+  Cada entidade (Registos, Segurança Social, Finanças, utilities) tem balcão, sistemas e backoffice próprios; no L0 ficam agregados numa faixa cada.
+
+header:
+  - heading: Descrição executiva
+    items:
+      - "Exemplo para o modelo service-blueprint. Mostra como uma pessoa trata de dois assuntos numa Loja de Cidadão, do momento em que percebe que tem de os tratar até à resposta."
+      - "As regras do serviço e os números vêm de fontes públicas. A loja, a pessoa e as entrevistas são inventadas."
+  - heading: O que é real e o que é inventado
+    items:
+      - "Etiqueta «Fonte pública»: regras de marcação, senhas, atendimento prioritário, Espaços Cidadão, Loja de Cidadão Virtual, Livro Amarelo e indicadores de dados abertos (G1 a G8)."
+      - "Etiqueta «Ficção»: a Loja de Cidadão de Lagoa Serena, a Teresa, as entrevistas e a observação (F1, F2). Não descrevem nenhuma loja nem nenhuma pessoa real."
+      - "Sem etiqueta: inferências por confirmar (pressupostos e questões em aberto)."
+      - "O chip «Fonte pública» esbate a ficção."
+  - heading: Pessoa (fictícia)
+    items:
+      - "Teresa, 41 anos, trabalha por turnos e vem com a filha de 18 meses."
+      - "Tem de renovar o Cartão de Cidadão e de esclarecer uma dúvida sobre uma prestação da Segurança Social."
+      - "Loja: Loja de Cidadão de Lagoa Serena (fictícia), com o perfil da loja mediana da rede em 2025."
+  - heading: Necessidade central (fictícia)
+    items:
+      - "Preciso de tratar dos dois assuntos numa só ida, sem perder um dia de trabalho."
+  - heading: "Rede em 2025 (dados abertos, G7)"
+    items:
+      - "77 lojas, 7,8 milhões de senhas, 6,6 milhões de atendimentos"
+      - "Desistências: 15,5% das senhas na rede; 8,2% na loja mediana; de 0% a 29,6% conforme a loja"
+      - "Espera média: cerca de 26 min na rede (ponderada pelos atendimentos); 18 min na loja mediana; até 44 min numa loja"
+      - "Janeiro: o mês com mais senhas (747 mil) e mais desistências (17,3%)"
+      - "Valores calculados a partir dos ficheiros mensais por loja."
+  - heading: Métricas a mover
+    items:
+      - "Tempo médio de espera (existe nos dados abertos)"
+      - "Desistências em % das senhas (existe nos dados abertos)"
+      - "Idas à loja por assunto resolvido (não existe nos dados abertos)"
+  - heading: Como ler
+    items:
+      - "Gn = fonte pública. Fn = fonte fictícia, inventada para este exemplo."
+      - "As linhas CX das fases são a voz da Teresa, logo fictícias. As linhas SLA vêm das fontes públicas ou dizem que não há."
+      - "Citações fictícias estão assinaladas no próprio cartão."
+
+sources:
+  - {id: G1, name: "gov.pt, guia «Atendimento nas Lojas de Cidadão» (atualizado a 01/09/2026)", type: process, date: "2026-09", link: "https://www.gov.pt/guias/atendimento-nas-lojas-de-cidadao"}
+  - {id: G2, name: "portugal.gov.pt, «Governo aprova novas regras para as Lojas de Cidadão»", type: decision, date: "2025-10-16", link: "https://portugal.gov.pt/gc25/comunicacao/noticias/governo-aprova-novas-regras-para-as-lojas-de-cidadao"}
+  - {id: G3, name: "portugal.gov.pt, «Loja de Cidadão Virtual entra hoje em funcionamento»", type: decision, date: "2025-11-12", link: "https://portugal.gov.pt/gc25/comunicacao/noticias/loja-de-cidadao-virtual-entra-hoje-em-funcionamento"}
+  - {id: G4, name: "gov.pt, guia «Atendimento nos Espaços Cidadão» (atualizado a 19/10/2026)", type: process, date: "2026-10", link: "https://www.gov.pt/guias/atendimento-nos-espacos-cidadao"}
+  - {id: G5, name: "ePortugal, «Reclamar, sugerir ou elogiar sobre um serviço público» (Livro Amarelo)", type: process, date: "consultado 2026-11", link: "https://eportugal.gov.pt/en/servicos/reclamar-sugerir-ou-elogiar-sobre-um-servico-publico"}
+  - {id: G6, name: "Decreto-Lei n.º 58/2016, de 29 de agosto (atendimento prioritário)", type: process, date: "2016-08", link: "https://diariodarepublica.pt/dr/detalhe/decreto-lei/58-2016-75216373"}
+  - {id: G7, name: "dados.gov.pt, «Indicadores dos atendimentos das Lojas de Cidadão» (ficheiros de 2017, 2018, 2023, 2025 e 2026). CC BY 4.0, a licença por omissão do portal para dados de organismos do Estado", type: primary, date: "2017 a 2026", link: "https://dados.gov.pt/pt/datasets/indicadores-dos-atendimentos-das-lojas-de-cidadao-anual"}
+  - {id: G8, name: "gov.pt, guia «Tirar senha online para Loja de Cidadão» (atualizado a 28/08/2026)", type: process, date: "2026-08", link: "https://www.gov.pt/guias/tirar-senha-online-para-loja-de-cidadao"}
+  - {id: F1, name: "FICTÍCIA: entrevistas com seis utilizadores da Loja de Cidadão de Lagoa Serena, inventadas para este exemplo", type: concept, date: "inventada"}
+  - {id: F2, name: "FICTÍCIA: observação de um dia na Loja de Cidadão de Lagoa Serena, inventada para este exemplo", type: concept, date: "inventada"}
+
+phases:
+  - {id: "1", name: "Perceber o que tem de tratar", subtitle: "Antes · Necessidade e primeiro canal", cx: "Tenho dois assuntos e não sei se os resolvo online", sla: "Loja de Cidadão Virtual: 24 horas por dia (G3)"}
+  - {id: "2", name: "Garantir a vez", subtitle: "Antes · Marcação ou senha digital", cx: "Quero ir uma vez só e esperar o mínimo", sla: "Nenhum publicado"}
+  - {id: "3", name: "Chegar e esperar", subtitle: "Durante · Na loja até à chamada", cx: "Chego com a minha filha e não sei quanto vou esperar", sla: "Sem SLA. Espera média 2025: cerca de 26 min na rede, 18 min na loja mediana (G7)"}
+  - {id: "4", name: "Ser atendida", subtitle: "Durante · Balcão e Espaço Cidadão", cx: "Resolvo um assunto e aprendo a tratar do outro sozinha", sla: "Nenhum publicado"}
+  - {id: "5", name: "Depois do atendimento", subtitle: "Depois · Opinião e resposta", cx: "Saio à espera de uma resposta", sla: "Livro Amarelo: resposta em 15 dias úteis, no máximo (G5)"}
+
+lanes:
+  - {id: touch, name: "Pontos de contacto", note: "Mensagens, senha, ecrãs", zone: evidence}
+  - {id: cidadao, name: "Cidadão", note: "A Teresa (fictícia)", zone: customer}
+  - {line: interaction}
+  - {id: digital, name: "gov.pt, SIGA e Loja Virtual", note: "Canais digitais que o cidadão usa", zone: frontstage}
+  - {id: kiosk, name: "Senha no local", note: "Na entrada da loja", zone: frontstage}
+  - {id: video, name: "Atendimento por videochamada", note: "Loja de Cidadão Virtual", zone: frontstage}
+  - {id: ec, name: "Espaço Cidadão", note: "Assistente, sem marcação", zone: frontstage}
+  - {id: func, name: "Balcão da entidade", note: "Funcionário da entidade pública ou privada", zone: frontstage}
+  - {line: visibility}
+  - {id: siga, name: "SIGA (bastidores)", note: "Marcações e senhas", zone: backstage}
+  - {id: appent, name: "Sistemas das entidades", note: "Um por entidade", zone: backstage}
+  - {line: internal}
+  - {id: backoffice, name: "Entidades públicas", note: "Backoffice, respostas e serviços online", zone: support}
+  - {id: dados, name: "Dados abertos", note: "dados.gov.pt", zone: support}
+  - {id: docs, name: "Documentos de suporte", zone: artefacts}
+  - {id: exc, name: "Exceções e casos-limite", zone: exceptions}
+
+status_models:
+  - name: Marcação
+    states:
+      - {name: "Marcação feita", set_by: "o SIGA regista a marcação"}
+  - name: Senha
+    states:
+      - {name: "Senha emitida", set_by: "senha digital emitida antes de ir, ou senha tirada no local"}
+      - {name: "Chamada ao balcão", set_by: "a senha é chamada"}
+  - name: Reclamação no Livro Amarelo
+    states:
+      - {name: "Reclamação submetida", set_by: "o comprovativo chega por email"}
+      - {name: "Resposta enviada", set_by: "a entidade responde por email, até 15 dias úteis"}
