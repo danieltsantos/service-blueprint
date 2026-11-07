@@ -118,7 +118,10 @@ def main():
             colour, dash = LINK_STYLE.get(ltype, LINK_STYLE["action"])
             out["links"].append({"from": c["id"], "to": target, "type": ltype, "label": label, "colour": colour, "dash": dash})
     out["board"] = {"width": LABEL_W + ncols * COL_W, "height": y}
-    out["credit"] = {"text": "Made with the service-blueprint template by Daniel Santos \u00b7 Template licence CC BY-NC 4.0",
+    pt = str(frame.get("language", "en")).lower().startswith("pt")
+    credit = ("Feito com o modelo service-blueprint de Daniel Santos \u00b7 Licença do modelo CC BY-NC 4.0" if pt
+              else "Made with the service-blueprint template by Daniel Santos \u00b7 Template licence CC BY-NC 4.0")
+    out["credit"] = {"text": credit,
                      "x": out["board"]["width"], "y": y + 24, "align": "right", "size": 11, "colour": "#8A928D"}
 
     if a.phase:

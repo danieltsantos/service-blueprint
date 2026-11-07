@@ -34,7 +34,7 @@ Settle these points. Infer what you can from the inputs. Ask only about points t
   - **L2**: an operational journey for a single touchpoint or vertical. Phases become steps, support lanes split per system or team, and gates, states and exceptions get specific.
 
   Default to L0 for a first pass. An L1 or L2 blueprint names its parent and the parent card IDs it expands (`parent` in the frame file), so readers can move between levels and the levels do not contradict each other.
-- **Language**: English or European Portuguese, as the user asks or as the prompt is written. IDs, tags and notation stay identical in both languages so boards can be compared.
+- **Language**: English or European Portuguese, as the user asks or as the prompt is written. Set `language` in the frame file to match: the renderers use it for the page's own labels, controls, check messages and template credit, so a Portuguese blueprint has no English interface text. IDs, tags and notation stay identical in both languages so boards can be compared.
 - **Output target**: see section 10.
 
 ## 3. Inventory the sources
@@ -207,7 +207,10 @@ In critique mode, deliver findings ordered by impact. Separate what the blueprin
 
 The service-blueprint skill is by Daniel Santos (https://danieltsantos.com), licensed under CC BY-NC 4.0 (https://creativecommons.org/licenses/by-nc/4.0/). Keep this credit and `LICENSE.txt` in any copy or adaptation of the skill.
 
-Every blueprint rendered with this skill carries one small template credit: "Made with the service-blueprint template by Daniel Santos · Template licence CC BY-NC 4.0".
+Every blueprint rendered with this skill carries one small template credit, in the blueprint's language:
+
+- English: "Made with the service-blueprint template by Daniel Santos · Template licence CC BY-NC 4.0"
+- European Portuguese: "Feito com o modelo service-blueprint de Daniel Santos · Licença do modelo CC BY-NC 4.0"
 
 - HTML: `render_html.py` adds it to the footer.
 - FigJam and Miro: draw it as small grey text under the board, from `credit` in the layout JSON.

@@ -32,7 +32,7 @@ python scripts/render_html.py <slug>-frame.yaml <slug>-cards.csv -o <slug>.html
 
 Then publish `<slug>.html` with the Artifact tool (`icon`: `diagram`; `description`: one sentence naming the service and state). Republish the same path after each revision so the link stays the same.
 
-The page has the header block, legend, phase timeline, lanes and lines, cards and connectors. Viewers can switch releases and variants on and off with chips (each shows its card count, and the page says how many cards are showing), hide connectors, spotlight unverified cards, and tap a card to trace its connections. The footer carries the template credit. Below the board it lists what needs a decision, the quality checks, the status models and the sources. Do not hand-edit the generated HTML; change the data and re-render.
+The page has the header block, legend, phase timeline, lanes and lines, cards and connectors. Viewers can switch releases and variants on and off with chips (each shows its card count, and the page says how many cards are showing), hide connectors, spotlight unverified cards, and tap a card to trace its connections. The footer carries the template credit. All interface text (labels, chips, legend, check messages, credit) follows `language` in the frame file; card content is never translated. Below the board it lists what needs a decision, the quality checks, the status models and the sources. Do not hand-edit the generated HTML; change the data and re-render.
 
 The page follows the Artifact page contract already. If the user wants a different look, change the template in `render_html.py` once, not per blueprint.
 

@@ -32,7 +32,7 @@ parent:                         # L1 and L2 only: the blueprint this one expands
   title: ""                     #   e.g. "Broadband installation L0"
   expands: ""                   #   parent card IDs, e.g. "2.1-2.5"
 status: WIP                     # WIP | review | agreed
-language: en                    # en | pt-PT
+language: en                    # en | pt-PT; also sets the language of the rendered page's interface and credit
 lane_policy: >                  # one line on how third-party and mixed-visibility actors are placed
   The contractor's technician meets the customer on site, so sits in a frontstage lane.
 attribution:                    # optional; only when the user asks for a credit or licence on the page

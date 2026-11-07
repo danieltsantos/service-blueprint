@@ -20,9 +20,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import bp  # noqa: E402
 
 E = html.escape
-TEMPLATE_CREDIT = ('<p class="tcredit">Made with the <a href="https://github.com/danieltsantos/service-blueprint" target="_blank" rel="noopener">'
-                   'service-blueprint template</a> by <a href="https://danieltsantos.com" target="_blank" rel="noopener">Daniel Santos</a>'
-                   ' &middot; Template licence <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>')
+_A_REPO = '<a href="https://github.com/danieltsantos/service-blueprint" target="_blank" rel="noopener">'
+_A_ME = '<a href="https://danieltsantos.com" target="_blank" rel="noopener">Daniel Santos</a>'
+_A_LIC = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
+TEMPLATE_CREDIT = {
+    "en": f'<p class="tcredit">Made with the {_A_REPO}service-blueprint template</a> by {_A_ME} &middot; Template licence {_A_LIC}</p>',
+    "pt": f'<p class="tcredit">Feito com o {_A_REPO}modelo service-blueprint</a> de {_A_ME} &middot; Licença do modelo {_A_LIC}</p>',
+}
 REL_RANK = {"": 1, "R1": 1, "R2": 2, "R3": 3, "RX": 4, "TBC": 4}
 LINE_LABEL = {"interaction": "Line of interaction", "visibility": "Line of visibility",
               "internal": "Line of internal interaction"}
@@ -32,13 +36,138 @@ TYPE_LABEL = {"start": "Start / end", "task": "Task", "system": "System", "gate"
               "message": "Message", "agent": "AI agent", "exception": "Exception",
               "question": "Question", "decision": "Decision", "gap": "Gap",
               "friction": "Friction", "idea": "Idea", "evidence": "Evidence", "artefact": "Artefact"}
+TYPE_LABEL_PT = {"start": "Início / fim", "task": "Tarefa", "system": "Sistema", "gate": "Ponto de decisão",
+                 "message": "Mensagem", "agent": "Agente de IA", "exception": "Exceção",
+                 "question": "Questão", "decision": "Decisão", "gap": "Lacuna",
+                 "friction": "Fricção", "idea": "Ideia", "evidence": "Evidência", "artefact": "Artefacto"}
+
+# Interface strings. The page follows `language` in the frame file: pt-PT gets "pt", anything else "en".
+# Card content is never translated; only the page's own labels, controls and check messages.
+UI = {
+    "en": {
+        "lang": "en", "phases": "Phases", "phase": "Phase", "lines": LINE_LABEL, "types": TYPE_LABEL,
+        "owner": "Owner", "updated": "Updated", "state": "State", "layer": "Layer", "status": "Status",
+        "expands": "Expands", "cards_word": "cards", "by": "By", "licence": "Licence", "licensed_under": "Licensed under",
+        "cx_status": "CX status", "trigger": "Trigger", "metric": "Metric", "cx_risk": "CX risk", "source": "Source",
+        "unassigned": "unassigned",
+        "basis": {"proposed": "proposed", "assumption": "assumption", "tbc": "TBC", "gap": "gap"},
+        "exc": {"open": "open", "workaround": "workaround", "risk": "risk", "decided": "decided"},
+        "src": {},
+        "link_types": [("action", "Action flow"), ("system", "System / dependency"),
+                       ("message", "Message to customer"), ("artefact", "Link to artefact")],
+        "release": "Release", "variant": "Variant", "all": "All", "show": "Show",
+        "connectors": "Connectors", "spotlight": "Spotlight unverified",
+        "count_tpl": "Showing {shown} of {total} cards",
+        "hint": "Hover or tap a card to trace its connections. Tap again to clear. Release and variant chips fade the cards they leave out.",
+        "needs": "Needs a decision", "checks": "Quality checks", "models": "Status models", "sources": "Sources",
+        "kinds": {"Exception": "Exception", "Open question": "Open question", "Gap": "Gap"},
+        "th": ("State", "Set by", "Cards"), "none": "none", "none_cap": "None",
+        "no_models": "No status models defined.", "none_listed": "None listed", "link": "link",
+        "lane_policy": "Lane placement", "format": "Format", "check_names": {},
+    },
+    "pt": {
+        "lang": "pt-PT", "phases": "Fases", "phase": "Fase", "lines": LINE_LABEL_PT, "types": TYPE_LABEL_PT,
+        "owner": "Responsável", "updated": "Atualizado", "state": "Estado", "layer": "Nível", "status": "Situação",
+        "expands": "Expande", "cards_word": "cartões", "by": "Autoria", "licence": "Licença", "licensed_under": "Licenciado sob",
+        "cx_status": "Estado visível", "trigger": "Gatilho", "metric": "Métrica", "cx_risk": "Risco para o cliente",
+        "source": "Fonte", "unassigned": "por atribuir",
+        "basis": {"proposed": "proposto", "assumption": "pressuposto", "tbc": "TBC", "gap": "lacuna"},
+        "exc": {"open": "aberta", "workaround": "contorno", "risk": "risco", "decided": "decidida"},
+        "src": {"primary": "primária", "process": "processo", "decision": "decisão", "concept": "conceito",
+                "ai-synthesis": "síntese de IA"},
+        "link_types": [("action", "Fluxo de ação"), ("system", "Sistema / dependência"),
+                       ("message", "Mensagem ao cliente"), ("artefact", "Ligação a artefacto")],
+        "release": "Release", "variant": "Variante", "all": "Todas", "show": "Mostrar",
+        "connectors": "Conectores", "spotlight": "Destacar não verificados",
+        "count_tpl": "A mostrar {shown} de {total} cartões",
+        "hint": "Passe o cursor ou toque num cartão para seguir as ligações. Toque outra vez para limpar. Os chips de release e de variante esbatem os cartões que ficam de fora.",
+        "needs": "Precisa de decisão", "checks": "Verificações de qualidade", "models": "Modelos de estados",
+        "sources": "Fontes",
+        "kinds": {"Exception": "Exceção", "Open question": "Questão em aberto", "Gap": "Lacuna"},
+        "th": ("Estado", "Definido por", "Cartões"), "none": "nenhum", "none_cap": "Nada",
+        "no_models": "Sem modelos de estados definidos.", "none_listed": "Nenhuma indicada", "link": "ligação",
+        "lane_policy": "Colocação das faixas", "format": "Formato",
+        "check_names": {
+            "Q1": "Ações do cliente seguidas abaixo das linhas",
+            "Q2": "Pontos de decisão com ramos etiquetados",
+            "Q3": "Estados visíveis ao cliente batem com os modelos de estados",
+            "Q4": "Exceções com estado, responsável e risco para o cliente",
+            "Q5": "Todos os cartões têm base e a evidência cita uma fonte real",
+            "Q6": "Sem cartões órfãos",
+            "Q7": "Linhas presentes e faixas do lado certo",
+            "Q8": "Decisões em aberto visíveis; cartões de agente completos",
+            "Q9": "As fases cobrem o âmbito do início ao fim",
+        },
+    },
+}
+
+_LINE_PT = {"interaction": "interação", "visibility": "visibilidade", "internal": "interação interna"}
+_DETAIL_PT = [
+    (r"^(\S+) '(.*)' has no trace below the line of interaction within two links$",
+     lambda m: f"{m[1]} «{m[2]}» não chega abaixo da linha de interação em dois passos"),
+    (r"^Phase (\S+) has no card below the line of visibility$",
+     lambda m: f"A fase {m[1]} não tem cartões abaixo da linha de visibilidade"),
+    (r"^Gate (\S+) has (\d+) branch\(es\); needs at least 2$",
+     lambda m: f"O ponto de decisão {m[1]} tem {m[2]} ramo(s); precisa de pelo menos 2"),
+    (r"^Gate (\S+) has unlabelled branch\(es\) to (.*)$",
+     lambda m: f"O ponto de decisão {m[1]} tem ramos sem etiqueta para {m[2]}"),
+    (r"^(\S+) sets status '(.*)', which is in no status model$",
+     lambda m: f"{m[1]} define o estado «{m[2]}», que não está em nenhum modelo de estados"),
+    (r"^Status '(.*)' \((.*)\) is never set by a card$",
+     lambda m: f"Nenhum cartão define o estado «{m[1]}» ({m[2]})"),
+    (r"^Exception (\S+) is missing (.*)$", lambda m: f"Falta à exceção {m[1]}: {m[2]}"),
+    (r"^(\S+) cites unknown source\(s\) (.*)$", lambda m: f"{m[1]} cita fonte(s) desconhecida(s): {m[2]}"),
+    (r"^(\S+) is marked evidence but cites no source$",
+     lambda m: f"{m[1]} está marcado como evidência mas não cita fonte"),
+    (r"^(\S+) is marked decided but names no source or owner$",
+     lambda m: f"{m[1]} está marcado como decidido mas não indica fonte nem responsável"),
+    (r"^(\S+) '(.*)' has no links in or out$", lambda m: f"{m[1]} «{m[2]}» não tem ligações de entrada nem de saída"),
+    (r"^Line of (\S+) is missing from the frame$",
+     lambda m: f"Falta a linha de {_LINE_PT.get(m[1], m[1])} no frame"),
+    (r"^Lines are out of order \(interaction, visibility, internal\)$",
+     lambda m: "As linhas estão fora de ordem (interação, visibilidade, interação interna)"),
+    (r"^Lane (\S+) has unknown zone '(.*)'$", lambda m: f"A faixa {m[1]} tem uma zona desconhecida «{m[2]}»"),
+    (r"^Customer lane (\S+) sits below the line of interaction$",
+     lambda m: f"A faixa do cliente {m[1]} está abaixo da linha de interação"),
+    (r"^Frontstage lane (\S+) is not between the lines of interaction and visibility$",
+     lambda m: f"A faixa de frontstage {m[1]} não está entre as linhas de interação e de visibilidade"),
+    (r"^Backstage lane (\S+) is not between the lines of visibility and internal interaction$",
+     lambda m: f"A faixa de backstage {m[1]} não está entre as linhas de visibilidade e de interação interna"),
+    (r"^Support lane (\S+) sits above the line of internal interaction$",
+     lambda m: f"A faixa de suporte {m[1]} está acima da linha de interação interna"),
+    (r"^(\S+) is tbc but its title is not a question$",
+     lambda m: f"{m[1]} está como TBC mas o título não é uma pergunta"),
+    (r"^Agent card (\S+) is missing trigger or metric$",
+     lambda m: f"Falta gatilho ou métrica ao cartão de agente {m[1]}"),
+    (r"^To-be blueprint has no open questions or gaps; check that open decisions were not made silently$",
+     lambda m: "O blueprint to-be não tem questões em aberto nem lacunas: confirmar que nenhuma decisão foi tomada em silêncio"),
+    (r"^Phase (\S+) has no cards$", lambda m: f"A fase {m[1]} não tem cartões"),
+    (r"^No start card$", lambda m: "Sem cartão de início"),
+    (r"^No end card$", lambda m: "Sem cartão de fim"),
+]
+
+
+def ui_for(frame):
+    return UI["pt"] if str(frame.get("language", "en")).lower().startswith("pt") else UI["en"]
+
+
+def detail_text(d, L):
+    """Translate a quality-check detail from bp.py when the page is in Portuguese."""
+    if L["lang"] == "en":
+        return d
+    import re
+    for rx, fn in _DETAIL_PT:
+        m = re.match(rx, d)
+        if m:
+            return fn(m)
+    return d
 
 
 def text(s):
     return E(s or "").replace("\\n", "<br>").replace("\n", "<br>")
 
 
-def card_html(c):
+def card_html(c, L=UI["en"]):
     cls = [f"card", f"t-{c['type']}", f"b-{c['basis']}"]
     if c["type"] == "exception" and c["exc_status"]:
         cls.append(f"e-{c['exc_status']}")
@@ -51,9 +180,9 @@ def card_html(c):
     for v in [v.strip() for v in c["variant"].split(";") if v.strip()]:
         badges.append(f'<span class="pill var">{E(v)}</span>')
     if c["basis"] in bp.UNVERIFIED:
-        badges.append(f'<span class="pill basis basis-{c["basis"]}">{E(c["basis"].upper() if c["basis"] == "tbc" else c["basis"])}</span>')
+        badges.append(f'<span class="pill basis basis-{c["basis"]}">{E(L["basis"].get(c["basis"], c["basis"]))}</span>')
     if c["type"] == "exception" and c["exc_status"]:
-        badges.append(f'<span class="pill exc">{E(c["exc_status"])}</span>')
+        badges.append(f'<span class="pill exc">{E(L["exc"].get(c["exc_status"], c["exc_status"]))}</span>')
     parts = [f'<div class="card-top"><span class="cid">{E(c["id"])}</span>{"".join(badges)}</div>',
              f'<div class="ctitle">{text(c["title"])}</div>']
     if c["type"] in {"start", "end"}:
@@ -63,19 +192,20 @@ def card_html(c):
     if c["body"]:
         parts.append(f'<div class="cbody">{text(c["body"])}</div>')
     if c["cx_status"]:
-        parts.append(f'<div class="status"><span>CX status</span> {E(c["cx_status"])}</div>')
+        parts.append(f'<div class="status"><span>{L["cx_status"]}</span> {E(c["cx_status"])}</div>')
     meta = []
     if c["trigger"]:
-        meta.append(f"<dt>Trigger</dt><dd>{text(c['trigger'])}</dd>")
+        meta.append(f"<dt>{L['trigger']}</dt><dd>{text(c['trigger'])}</dd>")
     if c["metric"]:
-        meta.append(f"<dt>Metric</dt><dd>{text(c['metric'])}</dd>")
+        meta.append(f"<dt>{L['metric']}</dt><dd>{text(c['metric'])}</dd>")
     if c["owner"]:
-        cls_o = ' class="unowned"' if c["owner"].lower() == "unassigned" else ""
-        meta.append(f"<dt>Owner</dt><dd{cls_o}>{E(c['owner'])}</dd>")
+        unowned = c["owner"].lower() == "unassigned"
+        cls_o = ' class="unowned"' if unowned else ""
+        meta.append(f"<dt>{L['owner']}</dt><dd{cls_o}>{E(L['unassigned'] if unowned else c['owner'])}</dd>")
     if c["cx_risk"]:
-        meta.append(f"<dt>CX risk</dt><dd>{text(c['cx_risk'])}</dd>")
+        meta.append(f"<dt>{L['cx_risk']}</dt><dd>{text(c['cx_risk'])}</dd>")
     if c["source"]:
-        meta.append(f"<dt>Source</dt><dd>{E(c['source'].replace(';', ', '))}</dd>")
+        meta.append(f"<dt>{L['source']}</dt><dd>{E(c['source'].replace(';', ', '))}</dd>")
     if meta:
         parts.append(f'<dl class="cmeta">{"".join(meta)}</dl>')
     return (f'<div class="{" ".join(cls)}" id="c-{E(c["id"])}" data-id="{E(c["id"])}" '
@@ -87,8 +217,8 @@ def build(frame, cards):
     lanes, lines = bp.lane_list(frame)
     cols = bp.phase_columns(frame, cards)
     ncols = sum(n for _, n in cols.values()) or 1
-    pt = str(frame.get("language", "en")).lower().startswith("pt")
-    line_label = LINE_LABEL_PT if pt else LINE_LABEL
+    L = ui_for(frame)
+    line_label = L["lines"]
 
     cells = defaultdict(list)
     for c in cards:
@@ -101,11 +231,11 @@ def build(frame, cards):
     rows = []
     r = 1
     # phase name row
-    rows.append(f'<div class="rlabel head" style="grid-row:{r}">{"Fases" if pt else "Phases"}</div>')
+    rows.append(f'<div class="rlabel head" style="grid-row:{r}">{L["phases"]}</div>')
     for p in frame["phases"]:
         start, n = cols[p["id"]]
         rows.append(f'<div class="phase" style="grid-row:{r};grid-column:{start + 2} / span {n}">'
-                    f'<div class="pnum">{"Fase" if pt else "Phase"} {E(p["id"])}</div>'
+                    f'<div class="pnum">{L["phase"]} {E(p["id"])}</div>'
                     f'<div class="pname">{E(p.get("name", ""))}</div>'
                     f'<div class="psub">{E(p.get("subtitle", ""))}</div></div>')
     r += 1
@@ -131,7 +261,7 @@ def build(frame, cards):
         rows.append(f'<div class="rlabel lane z-{E(lane["zone"])}" style="grid-row:{r}">'
                     f'<span class="lname">{E(str(lane.get("name", lane["id"])))}</span>{note}</div>')
         for col in range(ncols):
-            content = "".join(card_html(c) for c in cells.get((lane["id"], col), []))
+            content = "".join(card_html(c, L) for c in cells.get((lane["id"], col), []))
             ps = " pstart" if col in phase_starts else ""
             rows.append(f'<div class="cell z-{E(lane["zone"])}{ps}" style="grid-row:{r};grid-column:{col + 2}">{content}</div>')
         r += 1
@@ -151,17 +281,18 @@ def build(frame, cards):
 
 def page(frame, cards):
     rows, ncols, links, errors, quality, decisions = build(frame, cards)
+    L = ui_for(frame)
     title = str(frame.get("title", "Service blueprint"))
-    meta_bits = [("Owner", frame.get("owner")), ("Updated", frame.get("last_updated")),
-                 ("State", frame.get("state")), ("Layer", frame.get("layer")), ("Status", frame.get("status"))]
+    meta_bits = [(L["owner"], frame.get("owner")), (L["updated"], frame.get("last_updated")),
+                 (L["state"], frame.get("state")), (L["layer"], frame.get("layer")), (L["status"], frame.get("status"))]
     parent = frame.get("parent") or {}
     if isinstance(parent, dict) and parent.get("title"):
-        meta_bits.append(("Expands", f'{parent["title"]}' + (f' cards {parent["expands"]}' if parent.get("expands") else "")))
+        meta_bits.append((L["expands"], f'{parent["title"]}' + (f' {L["cards_word"]} {parent["expands"]}' if parent.get("expands") else "")))
     att_top = frame.get("attribution") or {}
     if isinstance(att_top, dict) and att_top.get("author"):
-        meta_bits.append(("By", att_top["author"]))
+        meta_bits.append((L["by"], att_top["author"]))
         if att_top.get("licence"):
-            meta_bits.append(("Licence", att_top["licence"]))
+            meta_bits.append((L["licence"], att_top["licence"]))
     meta = " · ".join(f"<span><b>{k}</b> {E(str(v))}</span>" for k, v in meta_bits if v)
 
     header_boxes = []
@@ -170,36 +301,38 @@ def page(frame, cards):
         header_boxes.append(f'<section class="hbox"><h3>{E(str(box.get("heading", "")))}</h3><ul>{items}</ul></section>')
 
     present = sorted({c["type"] for c in cards} - {"end"}, key=list(TYPE_LABEL).index)
-    legend_types = "".join(f'<span class="lg"><i class="sw t-{t}"></i>{TYPE_LABEL[t]}</span>' for t in present)
+    legend_types = "".join(f'<span class="lg"><i class="sw t-{t}"></i>{L["types"][t]}</span>' for t in present)
     legend_links = "".join(
         f'<span class="lg"><svg width="34" height="10" aria-hidden="true"><line x1="1" y1="5" x2="33" y2="5" class="l-{t}"/></svg>{n}</span>'
-        for t, n in [("action", "Action flow"), ("system", "System / dependency"),
-                     ("message", "Message to customer"), ("artefact", "Link to artefact")])
+        for t, n in L["link_types"])
 
     variants = sorted({v.strip() for c in cards for v in c["variant"].split(";") if v.strip()})
     var_ctrl = ""
     if variants:
         vcount = {v: sum(v in [x.strip() for x in c["variant"].split(";")] for c in cards) for v in variants}
         chips = "".join(f'<button type="button" class="chip" data-var="{E(v)}" aria-pressed="false">{E(v)} <span>{vcount[v]}</span></button>' for v in variants)
-        var_ctrl = (f'<div class="cgroup" role="group" aria-label="Variant"><span class="clabel">Variant</span>'
-                    f'<button type="button" class="chip" data-var="" aria-pressed="true">All</button>{chips}</div>')
+        var_ctrl = (f'<div class="cgroup" role="group" aria-label="{L["variant"]}"><span class="clabel">{L["variant"]}</span>'
+                    f'<button type="button" class="chip" data-var="" aria-pressed="true">{L["all"]}</button>{chips}</div>')
     rel_ctrl = ""
     if any(c["release"] for c in cards):
         order = ["R1", "R2", "R3", "RX", "TBC"]
         rcount = {r: sum((c["release"] or "R1") == r for c in cards) for r in order}
         chips = "".join(f'<button type="button" class="chip" data-rel="{r}" aria-pressed="true">{r} <span>{rcount[r]}</span></button>'
                         for r in order if rcount[r])
-        rel_ctrl = f'<div class="cgroup" role="group" aria-label="Release"><span class="clabel">Release</span>{chips}</div>'
+        rel_ctrl = f'<div class="cgroup" role="group" aria-label="{L["release"]}"><span class="clabel">{L["release"]}</span>{chips}</div>'
 
     passed = sum(q["passed"] for q in quality)
     checks = "".join(
-        f'<li class="{"ok" if q["passed"] else "bad"}"><b>{q["id"]}</b> {E(q["name"])}'
-        + ("" if q["passed"] else "<ul>" + "".join(f"<li>{E(d)}</li>" for d in q["details"][:10]) + "</ul>")
+        f'<li class="{"ok" if q["passed"] else "bad"}"><b>{q["id"]}</b> {E(L["check_names"].get(q["id"], q["name"]))}'
+        + ("" if q["passed"] else "<ul>" + "".join(f"<li>{E(detail_text(d, L))}</li>" for d in q["details"][:10]) + "</ul>")
         + "</li>" for q in quality)
     if errors:
-        checks = "".join(f'<li class="bad"><b>Format</b> {E(e)}</li>' for e in errors[:20]) + checks
-    dec = "".join(f'<li><span class="pill">{E(k)}</span> <a href="#c-{E(c["id"])}">{E(c["id"])}</a> {E(c["title"])}'
-                  + (f' <em>Owner: {E(c["owner"])}</em>' if c["owner"] else "") + "</li>" for k, c in decisions)
+        checks = "".join(f'<li class="bad"><b>{L["format"]}</b> {E(e)}</li>' for e in errors[:20]) + checks
+
+    def owner_txt(o):
+        return L["unassigned"] if o.lower() == "unassigned" else o
+    dec = "".join(f'<li><span class="pill">{E(L["kinds"].get(k, k))}</span> <a href="#c-{E(c["id"])}">{E(c["id"])}</a> {E(c["title"])}'
+                  + (f' <em>{L["owner"]}: {E(owner_txt(c["owner"]))}</em>' if c["owner"] else "") + "</li>" for k, c in decisions)
 
     by_status = defaultdict(list)
     pats = bp.state_patterns(frame)
@@ -212,18 +345,18 @@ def page(frame, cards):
         trs = ""
         for s in model.get("states", []):
             ids = by_status[(model.get("name", ""), str(s.get("name", "")).strip())]
-            setters = ", ".join('<a href="#c-%s">%s</a>' % (E(i), E(i)) for i in ids) or '<span class="unowned">none</span>'
+            setters = ", ".join('<a href="#c-%s">%s</a>' % (E(i), E(i)) for i in ids) or f'<span class="unowned">{L["none"]}</span>'
             trs += (f'<tr><td>{E(str(s.get("name", "")))}</td><td>{E(str(s.get("set_by", "")))}</td>'
                     f'<td>{setters}</td></tr>')
         models += (f'<section class="model"><h3>{E(str(model.get("name", "")))}</h3><div class="tablewrap"><table>'
-                   f'<thead><tr><th>State</th><th>Set by</th><th>Cards</th></tr></thead><tbody>{trs}</tbody></table></div></section>')
+                   f'<thead><tr><th>{L["th"][0]}</th><th>{L["th"][1]}</th><th>{L["th"][2]}</th></tr></thead><tbody>{trs}</tbody></table></div></section>')
     sources = "".join(
-        f'<li><span class="pill src-{E(str(s.get("type", "")))}">{E(str(s.get("type", "")))}</span> '
+        f'<li><span class="pill src-{E(str(s.get("type", "")))}">{E(L["src"].get(str(s.get("type", "")), str(s.get("type", ""))))}</span> '
         f'<b>{E(str(s.get("id", "")))}</b> {E(str(s.get("name", "")))}'
         + (f' <span class="muted">{E(str(s.get("date", "")))}</span>' if s.get("date") else "")
-        + (f' <a href="{E(str(s["link"]))}" target="_blank" rel="noopener">link</a>' if s.get("link") else "")
+        + (f' <a href="{E(str(s["link"]))}" target="_blank" rel="noopener">{L["link"]}</a>' if s.get("link") else "")
         + "</li>" for s in frame["sources"])
-    policy = f'<p class="policy"><b>Lane placement</b> {E(str(frame["lane_policy"]))}</p>' if frame.get("lane_policy") else ""
+    policy = f'<p class="policy"><b>{L["lane_policy"]}</b> {E(str(frame["lane_policy"]))}</p>' if frame.get("lane_policy") else ""
     att = frame.get("attribution") or {}
     footer = ""
     if isinstance(att, dict) and att.get("author"):
@@ -235,18 +368,21 @@ def page(frame, cards):
             lic = f'<a href="{E(str(att["licence_url"]))}" target="_blank" rel="noopener">{lic}</a>'
         year = E(str(att.get("year", "")))
         footer = (f'<p>&copy; {year + " " if year else ""}{who}'
-                  + (f' &middot; Licensed under {lic}' if lic else "")
+                  + (f' &middot; {L["licensed_under"]} {lic}' if lic else "")
                   + (f' &middot; {E(str(att["note"]))}' if att.get("note") else "") + "</p>")
-    footer = f'<footer class="credit">{footer}{TEMPLATE_CREDIT}</footer>'
+    footer = f'<footer class="credit">{footer}{TEMPLATE_CREDIT["pt" if L["lang"] != "en" else "en"]}</footer>'
 
     return TEMPLATE.format(
         title=E(title), deliverable=E(str(frame.get("deliverable", ""))), meta=meta,
         header="".join(header_boxes), legend_types=legend_types, legend_links=legend_links,
         controls=rel_ctrl + var_ctrl, ncols=ncols, rows="".join(rows),
         links=json.dumps(links, ensure_ascii=False).replace("</", "<\\/"),
-        passed=passed, total=len(quality), checks=checks, decisions=dec or "<li>None</li>",
-        ndec=len(decisions), models=models or "<p class=muted>No status models defined.</p>",
-        sources=sources or "<li>None listed</li>", policy=policy, footer=footer)
+        passed=passed, total=len(quality), checks=checks, decisions=dec or f"<li>{L['none_cap']}</li>",
+        ndec=len(decisions), models=models or f"<p class=muted>{L['no_models']}</p>",
+        sources=sources or f"<li>{L['none_listed']}</li>", policy=policy, footer=footer,
+        lang=L["lang"], t_show=L["show"], t_connectors=L["connectors"], t_spotlight=L["spotlight"],
+        t_count=E(L["count_tpl"]), t_hint=L["hint"], t_needs=L["needs"], t_checks=L["checks"],
+        t_models=L["models"], t_sources=L["sources"])
 
 
 TEMPLATE = """<title>{title}</title>
@@ -426,7 +562,7 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
 @media (max-width: 600px) {{ :root {{ --label-w: 104px; --col-w: 188px; }} .rlabel {{ font-size: 12px; padding: 8px 6px; }} }}
 </style>
 
-<div class="wrap">
+<div class="wrap" lang="{lang}">
   <header>
     <h1>{title}</h1>
     <p class="deliverable">{deliverable}</p>
@@ -437,22 +573,22 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
   {policy}
   <div class="controls">
     {controls}
-    <div class="cgroup" role="group" aria-label="Show"><span class="clabel">Show</span>
-      <button type="button" class="chip" id="f-links" aria-pressed="true">Connectors</button>
-      <button type="button" class="chip" id="f-spot" aria-pressed="false">Spotlight unverified</button>
+    <div class="cgroup" role="group" aria-label="{t_show}"><span class="clabel">{t_show}</span>
+      <button type="button" class="chip" id="f-links" aria-pressed="true">{t_connectors}</button>
+      <button type="button" class="chip" id="f-spot" aria-pressed="false">{t_spotlight}</button>
     </div>
-    <span class="ccount" id="f-count" aria-live="polite"></span>
+    <span class="ccount" id="f-count" aria-live="polite" data-tpl="{t_count}"></span>
   </div>
-  <p class="hint">Hover or tap a card to trace its connections. Tap again to clear. Release and variant chips fade the cards they leave out.</p>
+  <p class="hint">{t_hint}</p>
   <div class="boardwrap"><div class="board" id="board">
     <svg id="links" aria-hidden="true"><defs></defs></svg>
     {rows}
   </div></div>
   <div class="lower">
-    <section class="panel"><h2>Needs a decision ({ndec})</h2><ul>{decisions}</ul></section>
-    <section class="panel"><h2>Quality checks {passed}/{total}</h2><ul class="checks">{checks}</ul></section>
-    <section class="panel"><h2>Status models</h2>{models}</section>
-    <section class="panel"><h2>Sources</h2><ul>{sources}</ul></section>
+    <section class="panel"><h2>{t_needs} ({ndec})</h2><ul>{decisions}</ul></section>
+    <section class="panel"><h2>{t_checks} {passed}/{total}</h2><ul class="checks">{checks}</ul></section>
+    <section class="panel"><h2>{t_models}</h2>{models}</section>
+    <section class="panel"><h2>{t_sources}</h2><ul>{sources}</ul></section>
   </div>
   {footer}
 </div>
@@ -538,7 +674,7 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
       c.classList.toggle('dim', !!off); if (off) dimmed.add(c.dataset.id);
     }});
     svg.querySelectorAll('path, text').forEach(n => {{ if (n.dataset.from) n.classList.toggle('dimlink', dimmed.has(n.dataset.from) || dimmed.has(n.dataset.to)); }});
-    if (countEl) countEl.textContent = dimmed.size ? `Showing ${{cards.length - dimmed.size}} of ${{cards.length}} cards` : '';
+    if (countEl) countEl.textContent = dimmed.size ? countEl.dataset.tpl.replace('{{shown}}', cards.length - dimmed.size).replace('{{total}}', cards.length) : '';
   }}
   relChips.forEach(b => b.addEventListener('click', () => {{ b.setAttribute('aria-pressed', String(!pressed(b))); applyFilters(); }}));
   varChips.forEach(b => b.addEventListener('click', () => {{ varChips.forEach(x => x.setAttribute('aria-pressed', String(x === b))); applyFilters(); }}));
