@@ -20,6 +20,9 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import bp  # noqa: E402
 
 E = html.escape
+TEMPLATE_CREDIT = ('<p class="tcredit">Made with the <a href="https://github.com/danieltsantos/service-blueprint" target="_blank" rel="noopener">'
+                   'service-blueprint template</a> by <a href="https://danieltsantos.com" target="_blank" rel="noopener">Daniel Santos</a>'
+                   ' &middot; Template licence <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a></p>')
 REL_RANK = {"": 1, "R1": 1, "R2": 2, "R3": 3, "RX": 4, "TBC": 4}
 LINE_LABEL = {"interaction": "Line of interaction", "visibility": "Line of visibility",
               "internal": "Line of internal interaction"}
@@ -55,7 +58,7 @@ def card_html(c):
              f'<div class="ctitle">{text(c["title"])}</div>']
     if c["type"] in {"start", "end"}:
         return (f'<div class="{" ".join(cls)}" id="c-{E(c["id"])}" data-id="{E(c["id"])}" '
-                f'data-rel="{REL_RANK.get(rel, 4)}" data-variant="{E(c["variant"])}" tabindex="0">'
+                f'data-relname="{E(rel or "R1")}" data-variant="{E(c["variant"])}" tabindex="0">'
                 + "".join(parts) + "</div>")
     if c["body"]:
         parts.append(f'<div class="cbody">{text(c["body"])}</div>')
@@ -76,7 +79,7 @@ def card_html(c):
     if meta:
         parts.append(f'<dl class="cmeta">{"".join(meta)}</dl>')
     return (f'<div class="{" ".join(cls)}" id="c-{E(c["id"])}" data-id="{E(c["id"])}" '
-            f'data-rel="{REL_RANK.get(rel, 4)}" data-variant="{E(c["variant"])}" tabindex="0">'
+            f'data-relname="{E(rel or "R1")}" data-variant="{E(c["variant"])}" tabindex="0">'
             + "".join(parts) + "</div>")
 
 
@@ -176,11 +179,17 @@ def page(frame, cards):
     variants = sorted({v.strip() for c in cards for v in c["variant"].split(";") if v.strip()})
     var_ctrl = ""
     if variants:
-        opts = "".join(f'<option value="{E(v)}">{E(v)}</option>' for v in variants)
-        var_ctrl = f'<label for="f-var">Variant <select id="f-var"><option value="">All</option>{opts}</select></label>'
-    has_rel = any(c["release"] for c in cards)
-    rel_ctrl = ('<label for="f-rel">Release <select id="f-rel"><option value="9">All</option>'
-                '<option value="1">R1</option><option value="2">Up to R2</option><option value="3">Up to R3</option></select></label>') if has_rel else ""
+        vcount = {v: sum(v in [x.strip() for x in c["variant"].split(";")] for c in cards) for v in variants}
+        chips = "".join(f'<button type="button" class="chip" data-var="{E(v)}" aria-pressed="false">{E(v)} <span>{vcount[v]}</span></button>' for v in variants)
+        var_ctrl = (f'<div class="cgroup" role="group" aria-label="Variant"><span class="clabel">Variant</span>'
+                    f'<button type="button" class="chip" data-var="" aria-pressed="true">All</button>{chips}</div>')
+    rel_ctrl = ""
+    if any(c["release"] for c in cards):
+        order = ["R1", "R2", "R3", "RX", "TBC"]
+        rcount = {r: sum((c["release"] or "R1") == r for c in cards) for r in order}
+        chips = "".join(f'<button type="button" class="chip" data-rel="{r}" aria-pressed="true">{r} <span>{rcount[r]}</span></button>'
+                        for r in order if rcount[r])
+        rel_ctrl = f'<div class="cgroup" role="group" aria-label="Release"><span class="clabel">Release</span>{chips}</div>'
 
     passed = sum(q["passed"] for q in quality)
     checks = "".join(
@@ -225,9 +234,10 @@ def page(frame, cards):
         if lic and att.get("licence_url"):
             lic = f'<a href="{E(str(att["licence_url"]))}" target="_blank" rel="noopener">{lic}</a>'
         year = E(str(att.get("year", "")))
-        footer = (f'<footer class="credit">&copy; {year + " " if year else ""}{who}'
+        footer = (f'<p>&copy; {year + " " if year else ""}{who}'
                   + (f' &middot; Licensed under {lic}' if lic else "")
-                  + (f' &middot; {E(str(att["note"]))}' if att.get("note") else "") + "</footer>")
+                  + (f' &middot; {E(str(att["note"]))}' if att.get("note") else "") + "</p>")
+    footer = f'<footer class="credit">{footer}{TEMPLATE_CREDIT}</footer>'
 
     return TEMPLATE.format(
         title=E(title), deliverable=E(str(frame.get("deliverable", ""))), meta=meta,
@@ -241,6 +251,7 @@ def page(frame, cards):
 
 TEMPLATE = """<title>{title}</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="generator" content="service-blueprint template by Daniel Santos, template licence CC BY-NC 4.0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
@@ -371,7 +382,15 @@ h3 {{ font-family: var(--f-display); font-weight: 600; font-size: 15px; text-tra
 .sw.t-friction {{ background: var(--s-friction); border: 0; }} .sw.t-idea {{ background: var(--s-idea); border: 0; }} .sw.t-artefact {{ border-style: dotted; }}
 .b-tbc.t-task, .b-tbc.t-system {{ border-style: dashed; }}
 .board.spotlight .card.b-evidence, .board.spotlight .card.b-decided {{ opacity: .28; }}
-.card.dim {{ opacity: .18; }}
+.card.dim {{ opacity: .12; filter: grayscale(1); }}
+.board.nolinks > svg {{ display: none; }}
+.cgroup {{ display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }}
+.clabel {{ font-family: var(--f-mono); font-size: 10.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-right: 2px; }}
+.chip {{ font: inherit; font-size: 12.5px; line-height: 1.2; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--rule); background: var(--surface); color: var(--muted); cursor: pointer; }}
+.chip span {{ font-family: var(--f-mono); font-size: 10.5px; margin-left: 3px; opacity: .8; }}
+.chip[aria-pressed="true"] {{ background: var(--fg); color: var(--bg); border-color: var(--fg); }}
+.chip:focus-visible {{ outline: 2px solid var(--accent); outline-offset: 2px; }}
+.ccount {{ font-size: 12.5px; color: var(--muted); }}
 .board.tracing .card:not(.hl) {{ opacity: .3; }}
 .board.tracing path:not(.hl), .board.tracing text:not(.hl) {{ opacity: .12; }}
 path {{ fill: none; stroke-width: 1.6; }}
@@ -381,7 +400,7 @@ line.l-message, path.l-message {{ stroke: var(--l-message); stroke-dasharray: 7 
 line.l-artefact, path.l-artefact {{ stroke: var(--l-artefact); stroke-dasharray: 2 3; }}
 line {{ stroke-width: 2; }}
 path.hl {{ stroke-width: 2.6; }}
-path.dimlink {{ opacity: .12; }}
+path.dimlink, text.dimlink {{ opacity: .06; }}
 .mk-action {{ fill: var(--l-action); }} .mk-system {{ fill: var(--l-system); }} .mk-message {{ fill: var(--l-message); }} .mk-artefact {{ fill: var(--l-artefact); }}
 svg text {{ font-family: var(--f-mono); font-size: 10.5px; fill: var(--fg); paint-order: stroke; stroke: var(--band-alt); stroke-width: 4px; stroke-linejoin: round; }}
 .lower {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; align-items: start; }}
@@ -401,6 +420,8 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
 .hint {{ font-size: 12.5px; color: var(--muted); margin: 0; }}
 .credit {{ font-size: 12.5px; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 12px; }}
 .credit a {{ color: var(--accent); }}
+.credit p {{ margin: 0; }}
+.tcredit {{ font-size: 11.5px; margin-top: 4px; }}
 @media (prefers-reduced-motion: reduce) {{ .card {{ transition: none; }} }}
 @media (max-width: 600px) {{ :root {{ --label-w: 104px; --col-w: 188px; }} .rlabel {{ font-size: 12px; padding: 8px 6px; }} }}
 </style>
@@ -416,10 +437,13 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
   {policy}
   <div class="controls">
     {controls}
-    <label for="f-links"><input type="checkbox" id="f-links" checked> Connectors</label>
-    <label for="f-spot"><input type="checkbox" id="f-spot"> Spotlight unverified cards</label>
+    <div class="cgroup" role="group" aria-label="Show"><span class="clabel">Show</span>
+      <button type="button" class="chip" id="f-links" aria-pressed="true">Connectors</button>
+      <button type="button" class="chip" id="f-spot" aria-pressed="false">Spotlight unverified</button>
+    </div>
+    <span class="ccount" id="f-count" aria-live="polite"></span>
   </div>
-  <p class="hint">Hover or tap a card to trace its connections. Tap again to clear.</p>
+  <p class="hint">Hover or tap a card to trace its connections. Tap again to clear. Release and variant chips fade the cards they leave out.</p>
   <div class="boardwrap"><div class="board" id="board">
     <svg id="links" aria-hidden="true"><defs></defs></svg>
     {rows}
@@ -499,21 +523,28 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
     c.addEventListener('click', () => {{ pinned = pinned === c.dataset.id ? null : c.dataset.id; trace(pinned); }});
     c.addEventListener('keydown', e => {{ if (e.key === 'Enter' || e.key === ' ') {{ e.preventDefault(); c.click(); }} }});
   }});
-  const fRel = document.getElementById('f-rel'), fVar = document.getElementById('f-var');
+  const relChips = [...document.querySelectorAll('.chip[data-rel]')];
+  const varChips = [...document.querySelectorAll('.chip[data-var]')];
+  const countEl = document.getElementById('f-count');
+  const pressed = b => b.getAttribute('aria-pressed') === 'true';
   function applyFilters() {{
-    const rel = fRel ? +fRel.value : 9, v = fVar ? fVar.value : '';
+    const relOn = new Set(relChips.filter(pressed).map(b => b.dataset.rel));
+    const v = (varChips.find(pressed) || {{ dataset: {{ var: '' }} }}).dataset.var;
+    const cards = [...board.querySelectorAll('.card')];
     const dimmed = new Set();
-    board.querySelectorAll('.card').forEach(c => {{
+    cards.forEach(c => {{
       const vars = (c.dataset.variant || '').split(';').map(s => s.trim()).filter(Boolean);
-      const off = (+c.dataset.rel > rel) || (v && vars.length && !vars.includes(v));
+      const off = (relChips.length && !relOn.has(c.dataset.relname)) || (v && vars.length && !vars.includes(v));
       c.classList.toggle('dim', !!off); if (off) dimmed.add(c.dataset.id);
     }});
     svg.querySelectorAll('path, text').forEach(n => {{ if (n.dataset.from) n.classList.toggle('dimlink', dimmed.has(n.dataset.from) || dimmed.has(n.dataset.to)); }});
+    if (countEl) countEl.textContent = dimmed.size ? `Showing ${{cards.length - dimmed.size}} of ${{cards.length}} cards` : '';
   }}
-  if (fRel) fRel.addEventListener('change', applyFilters);
-  if (fVar) fVar.addEventListener('change', applyFilters);
-  document.getElementById('f-links').addEventListener('change', e => {{ svg.hidden = !e.target.checked; }});
-  document.getElementById('f-spot').addEventListener('change', e => board.classList.toggle('spotlight', e.target.checked));
+  relChips.forEach(b => b.addEventListener('click', () => {{ b.setAttribute('aria-pressed', String(!pressed(b))); applyFilters(); }}));
+  varChips.forEach(b => b.addEventListener('click', () => {{ varChips.forEach(x => x.setAttribute('aria-pressed', String(x === b))); applyFilters(); }}));
+  const fLinks = document.getElementById('f-links'), fSpot = document.getElementById('f-spot');
+  fLinks.addEventListener('click', () => {{ const on = !pressed(fLinks); fLinks.setAttribute('aria-pressed', String(on)); board.classList.toggle('nolinks', !on); }});
+  fSpot.addEventListener('click', () => {{ const on = !pressed(fSpot); fSpot.setAttribute('aria-pressed', String(on)); board.classList.toggle('spotlight', on); }});
   let tm; window.addEventListener('resize', () => {{ clearTimeout(tm); tm = setTimeout(draw, 120); }});
   draw();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);

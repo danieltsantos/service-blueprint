@@ -205,4 +205,12 @@ In critique mode, deliver findings ordered by impact. Separate what the blueprin
 
 ## Credits
 
-The service-blueprint skill is by Daniel Santos (https://danieltsantos.com), licensed under CC BY-NC 4.0 (https://creativecommons.org/licenses/by-nc/4.0/). Keep this credit and `LICENSE.txt` in any copy or adaptation of the skill. The credit is for the skill, not for blueprints made with it: put an author or licence on a rendered blueprint only when the user sets `attribution` in its frame file.
+The service-blueprint skill is by Daniel Santos (https://danieltsantos.com), licensed under CC BY-NC 4.0 (https://creativecommons.org/licenses/by-nc/4.0/). Keep this credit and `LICENSE.txt` in any copy or adaptation of the skill.
+
+Every blueprint rendered with this skill carries one small template credit: "Made with the service-blueprint template by Daniel Santos · Template licence CC BY-NC 4.0".
+
+- HTML: `render_html.py` adds it to the footer.
+- FigJam and Miro: draw it as small grey text under the board, from `credit` in the layout JSON.
+- A spreadsheet built for the user (xlsx or a Sheets artifact): put it on the legend or about sheet. Never add it to the card CSV, which is data.
+
+The credit names the template, not the content. The blueprint belongs to the user, so never present Daniel Santos as its author or the licence as covering its content. Keep the credit by default. If the user asks to remove it from their own blueprint, remove it. To credit the blueprint's own author, use `attribution` in the frame file.

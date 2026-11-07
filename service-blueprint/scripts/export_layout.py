@@ -118,6 +118,8 @@ def main():
             colour, dash = LINK_STYLE.get(ltype, LINK_STYLE["action"])
             out["links"].append({"from": c["id"], "to": target, "type": ltype, "label": label, "colour": colour, "dash": dash})
     out["board"] = {"width": LABEL_W + ncols * COL_W, "height": y}
+    out["credit"] = {"text": "Made with the service-blueprint template by Daniel Santos \u00b7 Template licence CC BY-NC 4.0",
+                     "x": out["board"]["width"], "y": y + 24, "align": "right", "size": 11, "colour": "#8A928D"}
 
     if a.phase:
         keep = {c["id"] for c in out["cards"] if c["phase"] == str(a.phase)}

@@ -32,13 +32,13 @@ python scripts/render_html.py <slug>-frame.yaml <slug>-cards.csv -o <slug>.html
 
 Then publish `<slug>.html` with the Artifact tool (`icon`: `diagram`; `description`: one sentence naming the service and state). Republish the same path after each revision so the link stays the same.
 
-The page has the header block, legend, phase timeline, lanes and lines, cards and connectors. Viewers can filter by release and variant, spotlight unverified cards, and tap a card to trace its connections. Below the board it lists what needs a decision, the quality checks, the status models and the sources. Do not hand-edit the generated HTML; change the data and re-render.
+The page has the header block, legend, phase timeline, lanes and lines, cards and connectors. Viewers can switch releases and variants on and off with chips (each shows its card count, and the page says how many cards are showing), hide connectors, spotlight unverified cards, and tap a card to trace its connections. The footer carries the template credit. Below the board it lists what needs a decision, the quality checks, the status models and the sources. Do not hand-edit the generated HTML; change the data and re-render.
 
 The page follows the Artifact page contract already. If the user wants a different look, change the template in `render_html.py` once, not per blueprint.
 
 ## 3. Spreadsheet
 
-The CSV opens in any spreadsheet. If the session lists a Sheets artifact type, create one from the card table so the user can edit it in place. If the user asks for an .xlsx, use the xlsx skill: one sheet for cards, one for phases and lanes, one for sources, first row frozen, `basis` and `type` as dropdowns. Read edits back into the CSV before re-rendering.
+The CSV opens in any spreadsheet. If the session lists a Sheets artifact type, create one from the card table so the user can edit it in place. If the user asks for an .xlsx, use the xlsx skill: one sheet for cards, one for phases and lanes, one for sources, first row frozen, `basis` and `type` as dropdowns, and the template credit on the legend sheet. Read edits back into the CSV before re-rendering.
 
 ## 4. FigJam
 
@@ -55,6 +55,7 @@ The CSV opens in any spreadsheet. If the session lists a Sheets artifact type, c
    - Cards, per phase: a shape with text per card at its `x`, `y`, `w`, filled with `fill` and stroked with `stroke`; sticky notes for `question`, `decision`, `gap`, `friction` and `idea`. Name every node with the card ID so later calls can find it.
    - Connectors, per phase: find both nodes by name and connect them, using `colour`, `dash` and `label` from `links`.
    Paste the layout JSON into the code as a constant and loop over it. Never retype card text by hand inside drawing code: that is where content drifts from the table.
+   - Credit: one small grey text node under the board, right-aligned, from `credit` in the layout JSON (see Credits in SKILL.md).
 5. **Check once** with `get_screenshot` on the board. Fix what is visibly wrong in one pass. Card heights in the layout are estimates; let text auto-size and grow lane bands if cards overflow.
 
 Do not use `generate_diagram` (Mermaid) for the full blueprint: it cannot hold cards to lanes and columns. It works well for a status model (`stateDiagram-v2`) or a quick flow sketch of one phase.
@@ -63,7 +64,7 @@ Do not use `generate_diagram` (Mermaid) for the full blueprint: it cannot hold c
 
 1. **Ask first** unless the user asked for Miro in this request: creating a board cannot be undone.
 2. Load `canvas_get_canvas_composer_skill`, then `canvas_load_format_skill` with `format_name: diagramming`, `notation: free_form`, `renderer: native`.
-3. Export the layout as for FigJam and translate it into Canvas Composer SVG: one rectangle per lane band, shapes with text for cards, sticky notes for note types, connectors for links. `canvas_create_from_svg` accepts up to 200,000 characters per call; send one phase per call for large boards.
+3. Export the layout as for FigJam and translate it into Canvas Composer SVG: one rectangle per lane band, shapes with text for cards, sticky notes for note types, connectors for links, and the small `credit` text under the board. `canvas_create_from_svg` accepts up to 200,000 characters per call; send one phase per call for large boards.
 4. Check once with `canvas_read_as_svg` or `board_preview_read`.
 
 ## 6. Reading an existing blueprint (critique mode)

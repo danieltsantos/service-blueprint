@@ -21,8 +21,8 @@ Open the [example](https://danieltsantos.github.io/service-blueprint/). It is an
 Try this:
 
 - Tap a card to see where it comes from and where it leads.
-- Use the **Release** filter to see only what ships in the first version of the service.
-- Turn on **Spotlight unverified cards** to see what is still an assumption.
+- Switch the **Release** chips on and off to see what ships in each release. The page says how many cards are showing.
+- Tap **Spotlight unverified** to see what is still an assumption, and **Connectors** to hide the arrows.
 - Scroll to the end. **Needs a decision** lists what the team still has to decide.
 
 ## 2. Install the skill
@@ -57,6 +57,7 @@ Blueprints come out in English or European Portuguese. Ask in the language you w
   - `name-frame.yaml`: header, phases, lanes, sources and status models.
   - `name-cards.csv`: one card per row. Opens in Excel or Google Sheets.
 - The list of what needs a decision, and the results of the quality checks.
+- A small credit to the template in the page footer. The blueprint itself is yours. Ask Claude to remove the credit if you need to.
 
 To change something, ask in plain words: "add a lane for the delivery partner" or "phase 3 has too much detail". Claude changes the data and rebuilds the page.
 
