@@ -106,7 +106,7 @@ A blueprint at this density overloads a single pass, and a half-finished single 
 3. **Exceptions**: run the exception prompts per phase (section 8).
 4. **Scope and references**: release tags, variants, supporting artefacts, metrics.
 
-After pass 1, show the user the skeleton if they are present. A wrong phase split or missing actor is cheap to fix here and expensive after pass 4. If the user is away, carry on and list your structural assumptions at the top of the result.
+After pass 1, show the user the skeleton if they are present. A wrong phase split or missing actor is cheap to fix here and expensive after pass 4. If the user is away, carry on and list your structural assumptions at the top of your reply.
 
 ## 7. Trace every customer action
 
@@ -177,6 +177,8 @@ Cards are for internal teams scanning a large board.
 - Short declarative sentences. No em-dashes. No corporate filler. Avoid these words: leverage, alignment, seamless, actionable, holistic, robust, transform, proactively, ecosystem, drive, stakeholder.
 - Keep the source's own terms for systems, statuses and roles. Do not rename them to sound cleaner.
 - In European Portuguese, use the glossary in `references/notation.md`.
+- Write the board for its readers, never for the user you are working with. Notes about your own work stay in your reply: what you could not open or read, which inputs you used or set aside, how you calculated a figure, what you inferred while building. Keep them out of cards, the header, the SLA lines and the comments in the frame and card files, because those files and the page get shared and published as they are.
+- State an unknown as a fact about the service, in the reader's terms: "Mechanism to confirm", "Not published", "Not described in the cited sources" (pt-PT: "Por confirmar", "Não publicado", "Não está descrito nas fontes citadas"). Never "I could not read", "my calculation" or "in the sources I read".
 
 ## 12. Quality checks
 

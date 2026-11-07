@@ -184,7 +184,7 @@ id,phase,step,lane,type,title,body,basis,source,owner,cx_status,release,variant,
 
 ## 9. Header block
 
-Default boxes, left to right: executive description, journey type and layer (state, layer, status), project links and owner, main goals, core user need, key user stories, key delivery references, key design references, documents and sources, metrics to move. Drop boxes the inputs give nothing for, and say in the result which ones you dropped.
+Default boxes, left to right: executive description, journey type and layer (state, layer, status), project links and owner, main goals, core user need, key user stories, key delivery references, key design references, documents and sources, metrics to move. Drop boxes the inputs give nothing for, and say in your reply which ones you dropped. Header boxes are for the board's readers: never add a box of notes about your own work (what you could not read, your limits as a builder).
 
 ## 10. European Portuguese glossary
 
