@@ -120,9 +120,9 @@ Tried it? Reach out to Daniel and tell him what worked and where it broke. A few
 
 ## Method
 
-The skill follows classic service blueprinting practice and adds what services with AI agents need: lanes for agents and their handoffs to people, and a basis on every card that says where it comes from. The method comes from:
+The skill was built from practice and checked against the classic guides. It adds what services with AI agents need: lanes for agents and their handoffs to people, and a basis on every card that says where it comes from. The guides it was checked against are:
 
-- Adaptive Path, [*A Guide to Service Blueprinting*](https://dga.or.th/upload/download/file_26e487aea69af163911dc4f6e6b8abd4.pdf), 2016. Licence CC BY-NC 3.0.
+- Adaptive Path, *A Guide to Service Blueprinting*, 2016. Licence CC BY-NC 3.0.
 - Erik Flowers and Megan Erin Miller, *Your Guide to Blueprinting the Practical Way*, Practical by Design, 2022.
 - Gerry Scullion, *7 Ways to Power up your Journey Mapping Skills*, 2024.
 
