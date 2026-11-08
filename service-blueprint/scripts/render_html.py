@@ -461,6 +461,7 @@ h3 {{ font-family: var(--f-display); font-weight: 600; font-size: 15px; text-tra
 .boardwrap {{ overflow-x: auto; border: 1px solid var(--rule); border-radius: 6px; background: var(--band); }}
 .board {{ position: relative; display: grid; grid-template-columns: var(--label-w) repeat({ncols}, var(--col-w)); width: max-content; }}
 .board > svg {{ position: absolute; inset: 0 auto auto 0; pointer-events: none; z-index: 1; overflow: visible; }}
+.board > svg#link-labels {{ z-index: 3; }}
 .rlabel {{ position: sticky; left: 0; z-index: 4; padding: 10px; font-family: var(--f-display); font-size: 14px; letter-spacing: .04em; text-transform: uppercase; font-weight: 600; background: var(--band); border-right: 1px solid var(--rule); display: flex; flex-direction: column; justify-content: center; gap: 2px; }}
 .rlabel.head {{ color: var(--muted); font-size: 12px; }}
 .rlabel.lane {{ border-bottom: 1px solid var(--rule); }}
@@ -591,6 +592,7 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
   <p class="hint">{t_hint}</p>
   <div class="boardwrap"><div class="board" id="board">
     <svg id="links" aria-hidden="true"><defs></defs></svg>
+    <svg id="link-labels" aria-hidden="true"></svg>
     {rows}
   </div></div>
   <div class="lower">
@@ -608,6 +610,8 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
   const LINKS = JSON.parse(document.getElementById('bp-links').textContent);
   const board = document.getElementById('board');
   const svg = document.getElementById('links');
+  const lsvg = document.getElementById('link-labels');
+  const linkNodes = () => [...svg.querySelectorAll('path:not(defs path), text'), ...lsvg.querySelectorAll('text')];
   const NS = 'http://www.w3.org/2000/svg';
   const defs = svg.querySelector('defs');
   ['action', 'system', 'message', 'artefact'].forEach(t => {{
@@ -620,8 +624,8 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
   const el = id => document.getElementById('c-' + id);
   function box(e, b) {{ const r = e.getBoundingClientRect(); return {{ l: r.left - b.left, t: r.top - b.top, r: r.right - b.left, b: r.bottom - b.top, w: r.width, h: r.height }}; }}
   function draw() {{
-    svg.querySelectorAll('path:not(defs path), text').forEach(n => n.remove());
-    svg.setAttribute('width', board.scrollWidth); svg.setAttribute('height', board.scrollHeight);
+    linkNodes().forEach(n => n.remove());
+    [svg, lsvg].forEach(g => {{ g.setAttribute('width', board.scrollWidth); g.setAttribute('height', board.scrollHeight); }});
     const B = board.getBoundingClientRect();
     LINKS.forEach(L => {{
       const a = el(L.from), z = el(L.to); if (!a || !z) return;
@@ -645,8 +649,9 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
       p.dataset.from = L.from; p.dataset.to = L.to; svg.appendChild(p);
       if (L.label) {{
         const tx = document.createElementNS(NS, 'text');
-        tx.setAttribute('x', (x1 + x2) / 2); tx.setAttribute('y', (y1 + y2) / 2 - 3); tx.setAttribute('text-anchor', 'middle');
-        tx.textContent = L.label; tx.dataset.from = L.from; tx.dataset.to = L.to; svg.appendChild(tx);
+        const flat = Math.abs(y2 - y1) < 24 && Math.abs(x2 - x1) < 60;
+        tx.setAttribute('x', (x1 + x2) / 2); tx.setAttribute('y', flat ? Math.min(s.t, t.t) - 3 : (y1 + y2) / 2 - 3); tx.setAttribute('text-anchor', 'middle');
+        tx.textContent = L.label; tx.dataset.from = L.from; tx.dataset.to = L.to; lsvg.appendChild(tx);
       }}
     }});
     applyFilters();
@@ -657,7 +662,7 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
     board.querySelectorAll('.hl').forEach(n => n.classList.remove('hl'));
     if (!id) return;
     const ids = new Set([id]);
-    svg.querySelectorAll('path, text').forEach(n => {{
+    linkNodes().forEach(n => {{
       if (n.dataset.from === id || n.dataset.to === id) {{ n.classList.add('hl'); ids.add(n.dataset.from); ids.add(n.dataset.to); }}
     }});
     ids.forEach(i => {{ const e = el(i); if (e) e.classList.add('hl'); }});
@@ -682,7 +687,7 @@ th {{ font-family: var(--f-display); font-weight: 600; text-transform: uppercase
       const off = (relChips.length && !relOn.has(c.dataset.relname)) || (v && vars.length && !vars.includes(v));
       c.classList.toggle('dim', !!off); if (off) dimmed.add(c.dataset.id);
     }});
-    svg.querySelectorAll('path, text').forEach(n => {{ if (n.dataset.from) n.classList.toggle('dimlink', dimmed.has(n.dataset.from) || dimmed.has(n.dataset.to)); }});
+    linkNodes().forEach(n => {{ if (n.dataset.from) n.classList.toggle('dimlink', dimmed.has(n.dataset.from) || dimmed.has(n.dataset.to)); }});
     if (countEl) countEl.textContent = dimmed.size ? countEl.dataset.tpl.replace('{{shown}}', cards.length - dimmed.size).replace('{{total}}', cards.length) : '';
   }}
   relChips.forEach(b => b.addEventListener('click', () => {{ b.setAttribute('aria-pressed', String(!pressed(b))); applyFilters(); }}));
