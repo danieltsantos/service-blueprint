@@ -29,7 +29,7 @@ Settle these points. Infer what you can from the inputs. Ask only about points t
 - **Scope**: one service outcome per blueprint, with a named start trigger and end condition.
 - **Scenario**: a blueprint follows one concrete scenario through time, named and summed up in one sentence. Start with the primary success path: the most common path, or the one you want most people to have. Secondary success paths (another channel) and problem paths (a painful, known, repeatable failure) get their own blueprints, which cover only the steps that differ and say where they leave the primary one. A blueprint is not a process map: do not draw every branch on one board.
 - **Step size**: each step is one key action ("customer compares two plans"), not a click ("clicks Compare") nor a whole phase ("buys broadband"). Keep every step in a row at the same zoom level. About 15 to 20 customer steps make a good scenario; past that, split into L1 blueprints.
-- **Primary actor** and **variants** (tier, country, channel, segment).
+- **Primary actor** and **variants** (tier, country, channel, segment). When the service has more than one customer (a buyer and a user, a parent and a child), name the customer in each customer action card.
 - **Layer**, in journey management terms:
   - **L0**: the end-to-end, strategic journey. Few cards per phase, every lane present.
   - **L1**: one stage or sub-journey of the L0, across all its touchpoints.
@@ -100,7 +100,7 @@ Full notation, card types, connectors and examples are in `references/notation.m
 
 Rename lanes to the real actors and systems. Drop empty lanes. Split a lane when two actors with different owners share it.
 
-Customer actions are the spine: every column is a service moment that starts with what the customer does, read left to right in time. Give each customer action one touchpoint, the medium of exchange at that moment (a screen, a message, a person). Two touchpoints in one step hide complexity, so split the step.
+Customer actions are the spine: every column is a service moment that starts with what the customer does, read left to right in time. Give each customer action one touchpoint, the medium of exchange at that moment (a screen, a message, a person). Two touchpoints in one step hide complexity, so split the step. Name touchpoints specifically: "slot picker screen" or "visit confirmed email", never just "app" or "email".
 
 Place a lane by what the customer can see, not by who employs the actor. A contractor's technician who visits the customer's site is frontstage for that visit even though the company does not employ them. When an actor is visible in some steps and invisible in others, either give them a frontstage lane for the visible steps or keep one support lane and mark the visible steps with a connector that crosses the line of interaction. State which choice you made in the frame file, because readers otherwise misread the lines.
 
@@ -225,7 +225,8 @@ Report failed checks to the user. Do not hide them to make the result look finis
 - The rendered blueprint (artifact, board link or file).
 - The frame file and card table.
 - A short list of what needs a decision: exceptions without owners, `tbc` cards, `gap` cards, failed checks. This list is usually what the team acts on first.
-- Who should validate the board: the roles that know each lane. A blueprint built from documents is a draft until the people who do the work have checked it, so keep `status: WIP` until then.
+- Who should validate the board: the roles that know each lane. A blueprint built from documents is a draft until the people who do the work have checked it, so keep `status: WIP` until then. Suggest building or reviewing it with people from each department in the room: a draft speeds the session up, it does not replace it. For a to-be board, suggest walking it through as a service storming session before anything is built.
+- The board is a living document. When the team learns more, change the cards and rebuild the board; keep the IDs.
 - When the user asks for next steps: group pain points, exceptions, gaps and key moments into a few themes, each with a one-line problem statement, the tactical fixes and strategic changes it suggests, and a suggested owner.
 
 In critique mode, deliver findings ordered by impact. Separate what the blueprint states, what you infer from it, and your judgement. Preserve the author's notation and terms when you quote it.

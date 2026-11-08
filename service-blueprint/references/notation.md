@@ -134,7 +134,7 @@ CSV, UTF-8, one row per card. Leave cells empty when they do not apply. Quote ce
 
 Stickies (`question` to `moment`) do not need links. Every other type except `start`, `end`, `evidence`, `policy` and `artefact` should have at least one link in or out. Link a gate or step to the `policy` that governs it with an `artefact` link, so readers see which rule drives which decision.
 
-**Touchpoints.** A customer action's touchpoint is the card it connects to in the same step, in the touchpoints lane or a frontstage lane: a screen, a message, a person. Keep one touchpoint per customer action. Two in the same step usually hide two steps, so split them. The checker flags it (Q10).
+**Touchpoints.** A customer action's touchpoint is the card it connects to in the same step, in the touchpoints lane or a frontstage lane: a screen, a message, a person. Name it specifically ("slot picker screen", not "app"). Keep one touchpoint per customer action. Two in the same step usually hide two steps, so split them. The checker flags it (Q10).
 
 **Durations and step metrics.** Put a measured duration or a satisfaction figure in `metric` on the card it measures ("Median wait 18 min"). When phases run on different time scales (minutes in one, days in another), say so in the phase subtitle.
 
