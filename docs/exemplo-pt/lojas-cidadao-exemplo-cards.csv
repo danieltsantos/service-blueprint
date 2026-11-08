@@ -4,67 +4,67 @@ start,1,1,cidadao,start,Início: a Teresa tem dois assuntos a tratar,,evidence,F
 1.2,1,2,cidadao,task,Tem uma dúvida sobre uma prestação da Segurança Social,,evidence,F1,,,,Ficção,,,,,1.3
 1.3,1,3,cidadao,task,Procura no gov.pt como tratar dos dois assuntos,,evidence,F1,,,,Ficção,,,,,1.4
 1.4,1,3,digital,system,Guia «Atendimento nas Lojas de Cidadão»,"Explica que se pode ir com ou sem marcação, tirar senha no local, tirar senha digital antes de ir ou marcar no SIGA.",evidence,G1,,,,Fonte pública,,,,,1.5
-1.N1,1,3,cidadao,friction,«Não percebi se tinha de marcar ou se bastava aparecer.»,Citação fictícia.,evidence,F1,,,,Ficção,,,,,
-1.X1,1,3,exc,exception,O guia geral não diz o que levar,Remete para a página de cada serviço. Confirmar se todas as páginas de serviço listam os documentos.,assumption,G1;G4,unassigned,,,,open,Chega sem um documento e tem de voltar,,,
-1.6,1,4,backoffice,system,22 entidades oferecem serviços na Loja de Cidadão Virtual,"150 serviços, 23 para cidadãos. Novos serviços entram aos poucos.",evidence,G3,,,,Fonte pública,,,,,1.5>system
-1.5,1,4,cidadao,gate,O assunto trata-se na Loja de Cidadão Virtual?,"Disponível 24 horas por dia. Exemplos: mudar a morada do Cartão de Cidadão, renovar a carta de condução.",evidence,G3,,,,Fonte pública,,,,,"1.END>action:Sim, sozinha; 2.10>action:Sim, com ajuda; 2.1>action:Não ou não sabe"
-1.END,1,5,digital,end,Fim: trata online,,decided,,Daniel Santos,,,,,,,,
-2.1,2,1,cidadao,gate,Como garante a vez?,"Com marcação, com senha digital antes de ir, ou com senha no local. O novo regime mantém o atendimento com e sem marcação.",evidence,G1;G2,,,,Fonte pública,,,,,2.2>action:Marca no SIGA; 2.5>action:Senha digital; 3.1>action:Senha no local; 2.P1>artefact
-2.P1,2,1,regras,policy,Atendimento com ou sem marcação,Novo regime: todos os serviços públicos abertos enquanto a loja está aberta.,evidence,G2,,,,Fonte pública,,,,,
+1.N1,1,3,cidadao,friction,«Não percebi se tinha de marcar ou se bastava aparecer.»,Esta citação é fictícia.,evidence,F1,,,,Ficção,,,,,
+1.X1,1,3,exc,exception,O guia geral não diz o que levar,O guia remete para a página de cada serviço. Falta confirmar se todas essas páginas listam os documentos.,assumption,G1;G4,unassigned,,,,open,A pessoa chega sem um documento e tem de voltar.,,,
+1.6,1,4,backoffice,system,22 entidades oferecem serviços na Loja de Cidadão Virtual,"Há 150 serviços, 23 deles para cidadãos. Os novos serviços entram aos poucos.",evidence,G3,,,,Fonte pública,,,,,1.5>system
+1.5,1,4,cidadao,gate,O assunto trata-se na Loja de Cidadão Virtual?,"Está disponível 24 horas por dia. Por exemplo, pode mudar a morada do Cartão de Cidadão ou renovar a carta de condução.",evidence,G3,,,,Fonte pública,,,,,"1.END>action:Sim, sozinha; 2.10>action:Sim, com ajuda; 2.1>action:Não ou não sabe"
+1.END,1,5,digital,end,Fim: trata online,,decided,F1,,,,Ficção,,,,,
+2.1,2,1,cidadao,gate,Como garante a vez?,"Pode marcar, tirar senha digital antes de ir ou tirar senha no local. O novo regime mantém o atendimento com e sem marcação.",evidence,G1;G2,,,,Fonte pública,,,,,2.2>action:Marca no SIGA; 2.5>action:Senha digital; 3.1>action:Senha no local; 2.P1>artefact
+2.P1,2,1,regras,policy,Atendimento com ou sem marcação,"No novo regime, todos os serviços públicos estão abertos enquanto a loja está aberta.",evidence,G2,,,,Fonte pública,,,,,
 2.N2,2,1,cidadao,moment,Momento-chave: garantir a vez antes de sair de casa,"Nas entrevistas fictícias, é aqui que se decide se a ida corre bem.",evidence,F1,,,,Ficção,,,,,
-2.10,2,1,video,task,Atendimento por videochamada,"Atendimento humano em ambiente digital, com marcação prévia, para quem precisa de apoio ou não se pode deslocar.",evidence,G3,,,,Fonte pública,,,,,1.END>action:resolvido
-2.2,2,2,digital,system,⚙️ Marcação no portal SIGA ou na SigaApp,"Data e hora para várias entidades públicas, antes de ir. A lista de entidades está no portal SIGA.",evidence,G1,,,,Fonte pública,,,,,2.3>system
-2.5,2,2,digital,system,⚙️ Senha digital no gov.pt ou na SigaApp,"No gov.pt: escolher a loja, o separador «Balcões e senhas», o balcão e o serviço. Uma senha por pessoa e por visita.",evidence,G1;G8,,,,Fonte pública,,,,,2.5.1; 2.P2>artefact
-2.P2,2,2,regras,policy,Uma senha por pessoa e por visita,Senhas digitais: 30 minutos entre pedidos para o mesmo telemóvel ou email.,evidence,G1,,,,Fonte pública,,,,,
-2.5.1,2,3,digital,gate,Está dentro do horário da senha digital?,Regra em 2.P3.,evidence,G8,,,,Fonte pública,,,,,2.6>system:Sim; 2.X3>action:Não; 2.P3>artefact
-2.P3,2,3,regras,policy,Senha digital só com a loja aberta,Desde 30 minutos depois da abertura até uma hora antes do fecho de cada loja.,evidence,G8,,,,Fonte pública,,,,,
-2.X3,2,3,exc,exception,Fora do horário da senha digital,Antes da abertura não há senha digital: quem quer ser atendido logo de manhã tem de ir à loja.,evidence,G8,unassigned,,,Fonte pública,risk,Não consegue garantir a vez antes de sair de casa,,,3.1>action:vai à loja
+2.10,2,1,video,task,Atendimento por videochamada,"É um atendimento humano em ambiente digital, com marcação prévia, para quem precisa de apoio ou não se pode deslocar.",evidence,G3,,,,Fonte pública,,,,,1.END>action:resolvido
+2.2,2,2,digital,system,⚙️ Marcação no portal SIGA ou na SigaApp,"Marca-se data e hora, antes de ir, para várias entidades públicas. A lista de entidades está no portal SIGA.",evidence,G1,,,,Fonte pública,,,,,2.3>system
+2.5,2,2,digital,system,⚙️ Senha digital no gov.pt ou na SigaApp,"No gov.pt, escolhe-se a loja, o separador «Balcões e senhas», o balcão e o serviço. Cada pessoa tira uma senha por visita.",evidence,G1;G8,,,,Fonte pública,,,,,2.5.1; 2.P2>artefact
+2.P2,2,2,regras,policy,Uma senha por pessoa e por visita,Entre dois pedidos de senha digital para o mesmo telemóvel ou email têm de passar 30 minutos.,evidence,G1,,,,Fonte pública,,,,,
+2.5.1,2,3,digital,gate,Está dentro do horário da senha digital?,A regra está no cartão 2.P3.,evidence,G8,,,,Fonte pública,,,,,2.6>system:Sim; 2.X3>action:Não; 2.P3>artefact
+2.P3,2,3,regras,policy,Senha digital só com a loja aberta,Há senha digital desde 30 minutos depois da abertura até uma hora antes do fecho de cada loja.,evidence,G8,,,,Fonte pública,,,,,
+2.X3,2,3,exc,exception,Fora do horário da senha digital,Antes da abertura não há senha digital: quem quer ser atendido logo de manhã tem de ir à loja.,evidence,G8,unassigned,,,Fonte pública,risk,A pessoa não consegue garantir a vez antes de sair de casa.,,,3.1>action:vai à loja
 2.3,2,2,siga,gate,Há vaga numa data que lhe sirva?,,assumption,,,,,,,,,,2.4>system:Sim; 2.X1>action:Não
-2.X1,2,3,exc,exception,Sem vaga numa data que sirva,Disponibilidade de vagas por confirmar no SIGA.,assumption,,unassigned,,,,risk,Falta ao trabalho ou vai sem marcação,,,2.5>action:tenta senha digital
-2.N1,2,3,cidadao,friction,"«Só havia vaga daqui a três semanas, num dia de trabalho.»",Citação fictícia.,evidence,F1,,,,Ficção,,,,,
-2.4,2,3,siga,system,⚙️ Regista a marcação,"Canal da confirmação (email, SMS ou app) por confirmar.",assumption,,,Marcação feita,,,,,,,2.M1>message:confirma
+2.X1,2,3,exc,exception,Sem vaga numa data que sirva,Falta confirmar no SIGA quantas vagas há.,assumption,,unassigned,,,,risk,A pessoa falta ao trabalho ou vai sem marcação.,,,2.5>action:tenta senha digital
+2.N1,2,3,cidadao,friction,"«Só havia vaga daqui a três semanas, num dia de trabalho.»",Esta citação é fictícia.,evidence,F1,,,,Ficção,,,,,
+2.4,2,3,siga,system,⚙️ Regista a marcação,"Falta confirmar por onde chega a confirmação: email, SMS ou aplicação.",assumption,,,Marcação feita,,,,,,,2.M1>message:confirma
 2.6,2,4,digital,gate,Há senhas disponíveis para esse balcão?,"A página de cada local mostra a morada, o horário, os balcões e as senhas disponíveis.",evidence,G1,,,,Fonte pública,,,,,2.7>system:Sim; 2.X2>action:Não
-2.M1,2,4,touch,message,✉️ Confirmação da marcação,Forma por confirmar.,assumption,,,,,,,,,,3.1
+2.M1,2,4,touch,message,✉️ Confirmação da marcação,Falta confirmar como chega a confirmação.,assumption,,,,,,,,,,3.1
 2.7,2,5,siga,system,⚙️ Emite a senha digital,,evidence,G1;G8,,Senha emitida,,Fonte pública,,,,,2.M2>message:envia
-2.X2,2,5,exc,exception,Senhas digitais esgotadas para o balcão,"As páginas de cada local mostram as senhas disponíveis, o que indica que podem esgotar.",assumption,G1,unassigned,,,,risk,Tem de chegar cedo e tentar no local,,,3.1>action:vai à loja
+2.X2,2,5,exc,exception,Senhas digitais esgotadas para o balcão,"As páginas de cada local mostram as senhas disponíveis, o que indica que podem esgotar.",assumption,G1,unassigned,,,,risk,A pessoa tem de chegar cedo e tentar no local.,,,3.1>action:vai à loja
 2.M2,2,6,touch,message,📱 Senha digital por SMS ou email,O guia não diz o que a senha mostra nem como acompanhar a fila.,evidence,G8,,,,Fonte pública,,,,,2.8
-2.8,2,6,cidadao,task,Tenta a segunda senha e tem de esperar 30 minutos,Regra real: 30 minutos entre pedidos para o mesmo telemóvel ou email (G1). A situação é fictícia.,evidence,F1;G1,,,,Ficção,,,,,3.1
+2.8,2,6,cidadao,task,Tenta a segunda senha e tem de esperar 30 minutos,A regra é real: entre pedidos para o mesmo telemóvel ou email têm de passar 30 minutos (G1). A situação é fictícia.,evidence,F1;G1,,,,Ficção,,,,,3.1
 3.1,3,1,cidadao,task,Chega à loja com a filha ao colo,,evidence,F2,,,,Ficção,,,,,3.2
 3.2,3,1,cidadao,gate,Já tem marcação ou senha digital?,,evidence,G1,,,,Fonte pública,,,,,3.5>action:Sim; 3.3>action:Não
 3.3,3,2,kiosk,system,⚙️ Senha tirada no local,"Sem marcação, tira-se uma senha no local e espera-se a vez. Cada pessoa tira a sua.",evidence,G1,,Senha emitida,,Fonte pública,,,,,3.4
-3.4,3,2,cidadao,gate,Tem direito a atendimento prioritário?,Regra em 3.P1.,evidence,G6,,,,Fonte pública,,,,,"3.6>action:Sim; 3.5>action:Não, ou tem marcação; 3.P1>artefact"
-3.P1,3,2,regras,policy,Atendimento prioritário (Decreto-Lei n.º 58/2016),Grávidas; criança de colo até 2 anos; incapacidade de 60% ou mais; 65 anos ou mais com limitação evidente. Não se aplica a serviços com marcação.,evidence,G6,,,,Fonte pública,,,,,
-3.N4,3,2,cidadao,moment,Momento-chave: saber logo à entrada se tem prioridade,Decide se a Teresa espera de pé com a filha ao colo.,evidence,F1,,,,Ficção,,,,,
-3.X3,3,2,exc,exception,Prioridade recusada,Pode pedir a presença da polícia e queixar-se ao INR ou à entidade fiscalizadora. Recusar é contraordenação.,evidence,G6,INR ou entidade fiscalizadora,,,Fonte pública,decided,Espera sem prioridade com uma criança ao colo,,,
-3.N2,3,2,cidadao,friction,"«Ninguém me disse que, com a minha filha ao colo, tinha prioridade.»",Citação fictícia.,evidence,F1,,,,Ficção,,,,,
-3.5,3,3,cidadao,task,Espera pela chamada,"Até 44 min de média numa loja, em 2025. Calculado a partir dos dados abertos.",evidence,G7,,,,Fonte pública,,,,"Espera média 2025: cerca de 26 min na rede, 18 min na loja mediana",3.7
-3.6,3,3,func,task,Atende primeiro quem tem prioridade,"Entre várias pessoas com prioridade, por ordem de chegada.",evidence,G6,,,,Fonte pública,,,,,4.2
-3.N3,3,3,cidadao,evidence,Não sabe se pode sair da loja sem perder a vez,Observação fictícia. O guia da senha digital também não diz o que acontece a quem não está quando a senha é chamada (G8).,evidence,F2;G8,,,,Ficção,,,,,
-3.7,3,4,cidadao,gate,Fica até ser chamada?,"Até 29,6% de desistências numa loja, em 2025.",evidence,G7,,,,Fonte pública,,,,"Desistências 2025: 15,5% das senhas na rede, 8,2% na loja mediana",3.8>system:Sim; 3.X1>action:Não
-3.X1,3,4,exc,exception,Desiste e vai embora,Fica contada como desistência.,evidence,G7,unassigned,,,Fonte pública,risk,Volta noutro dia com o assunto por tratar,,,2.1>action:nova ida
-3.X2,3,4,exc,exception,Janeiro tem mais procura e mais desistências,"2025: 747 mil senhas e 17,3% de desistências em janeiro; 521 mil senhas em dezembro.",evidence,G7,unassigned,,,Fonte pública,risk,Espera e desistência mais prováveis no início do ano,,,
-3.8,3,5,siga,system,⚙️ Chama a senha ao balcão,Mecanismo de chamada por confirmar.,assumption,,,Chamada ao balcão,,,,,,,3.M1>message:mostra; 5.2>system:registo
-3.M1,3,5,touch,message,📺 Chamada da senha,O número é chamado ao balcão. Como é chamado não está descrito.,evidence,G8,,,,Fonte pública,,,,,4.1
+3.4,3,2,cidadao,gate,Tem direito a atendimento prioritário?,A regra está no cartão 3.P1.,evidence,G6,,,,Fonte pública,,,,,"3.6>action:Sim; 3.5>action:Não, ou tem marcação; 3.P1>artefact"
+3.P1,3,2,regras,policy,Atendimento prioritário (Decreto-Lei n.º 58/2016),Têm prioridade as grávidas e quem leva uma criança de colo até 2 anos. Também têm prioridade as pessoas com incapacidade de 60% ou mais e as pessoas com 65 anos ou mais e limitação evidente. A regra não se aplica a serviços com marcação.,evidence,G6,,,,Fonte pública,,,,,
+3.N4,3,2,cidadao,moment,Momento-chave: saber logo à entrada se tem prioridade,Isto decide se a Teresa espera de pé com a filha ao colo.,evidence,F1,,,,Ficção,,,,,
+3.X3,3,2,exc,exception,Prioridade recusada,A pessoa pode pedir a presença da polícia e queixar-se ao Instituto Nacional para a Reabilitação ou à entidade fiscalizadora. Recusar a prioridade é uma contraordenação.,evidence,G6,Instituto Nacional para a Reabilitação ou entidade fiscalizadora,,,Fonte pública,decided,A pessoa espera sem prioridade com uma criança ao colo.,,,
+3.N2,3,2,cidadao,friction,"«Ninguém me disse que, com a minha filha ao colo, tinha prioridade.»",Esta citação é fictícia.,evidence,F1,,,,Ficção,,,,,
+3.5,3,3,cidadao,task,Espera pela chamada,"Em 2025, a espera média chegou a 44 minutos numa loja. O valor foi calculado a partir dos dados abertos.",evidence,G7,,,,Fonte pública,,,,Espera média em 2025: cerca de 26 minutos na rede e 18 minutos na loja mediana,3.7
+3.6,3,3,func,task,Atende primeiro quem tem prioridade,"Entre várias pessoas com prioridade, conta a ordem de chegada.",evidence,G6,,,,Fonte pública,,,,,4.2
+3.N3,3,3,cidadao,evidence,Não sabe se pode sair da loja sem perder a vez,A observação é fictícia. O guia da senha digital também não diz o que acontece a quem não está presente quando a senha é chamada (G8).,evidence,F2;G8,,,,Ficção,,,,,
+3.7,3,4,cidadao,gate,Fica até ser chamada?,"Em 2025, as desistências chegaram a 29,6% das senhas numa loja.",evidence,G7,,,,Fonte pública,,,,"Desistências em 2025: 15,5% das senhas na rede e 8,2% na loja mediana",3.8>system:Sim; 3.X1>action:Não
+3.X1,3,4,exc,exception,Desiste e vai embora,A senha fica contada como desistência.,evidence,G7,unassigned,,,Fonte pública,risk,A pessoa volta noutro dia com o assunto por tratar.,,,2.1>action:nova ida
+3.X2,3,4,exc,exception,Janeiro tem mais procura e mais desistências,"Em 2025, janeiro teve 747 mil senhas e 17,3% de desistências. Dezembro teve 521 mil senhas.",evidence,G7,unassigned,,,Fonte pública,risk,"No início do ano, é mais provável esperar muito e desistir.",,,
+3.8,3,5,siga,system,⚙️ Chama a senha ao balcão,Falta confirmar como a senha é chamada.,assumption,,,Chamada ao balcão,,,,,,,3.M1>message:mostra; 5.2>system:registo
+3.M1,3,5,touch,message,📺 Chamada da senha,O número é chamado ao balcão. As fontes não descrevem como.,evidence,G8,,,,Fonte pública,,,,,4.1
 4.1,4,1,cidadao,task,Vai ao balcão do Cartão de Cidadão,,evidence,F1,,,,Ficção,,,,,4.1.1
 4.1.1,4,1,cidadao,task,Mostra a senha digital como comprovativo,Quem tirou senha digital apresenta-a quando o número é chamado ao balcão.,evidence,G8,,,,Fonte pública,,,,,4.2
-4.2,4,1,func,task,Funcionário da entidade atende,"Balcões de entidades públicas e privadas: Segurança Social, Finanças, Registos, EDP, Galp, CTT, entre outras. Novo regime: todos os serviços públicos abertos enquanto a loja está aberta.",evidence,G1;G2,,,,Fonte pública,,,,,4.3>system; 4.4; 4.D1>artefact
+4.2,4,1,func,task,Funcionário da entidade atende,"Há balcões de entidades públicas e privadas, como a Segurança Social, as Finanças, os Registos, a EDP, a Galp e os CTT. No novo regime, todos os serviços públicos estão abertos enquanto a loja está aberta.",evidence,G1;G2,,,,Fonte pública,,,,,4.3>system; 4.4; 4.D1>artefact
 4.3,4,1,appent,system,⚙️ Sistema da entidade trata o pedido,Os sistemas de cada entidade não estão descritos nas fontes citadas.,assumption,,,,,,,,,,
-4.D1,4,1,docs,artefact,Página do serviço no gov.pt,Onde se confirmam os pormenores de cada serviço. Também há a Linha Cidadão.,evidence,G4,,,,Fonte pública,,,,,
+4.D1,4,1,docs,artefact,Página do serviço no gov.pt,É aqui que se confirmam os pormenores de cada serviço. Também há a Linha Cidadão.,evidence,G4,,,,Fonte pública,,,,,
 4.4,4,2,func,gate,Traz tudo o que o serviço pede?,,assumption,,,,,,,,,,4.5>action:Sim; 4.X1>action:Falta um documento
-4.X1,4,2,exc,exception,Falta um comprovativo,"Numa entrevista fictícia, a Teresa teve de voltar por isso.",evidence,F1,unassigned,,,Ficção,open,Nova ida e nova espera,,,2.1>action:nova ida
-4.5,4,3,func,task,"Na Segurança Social, sugerem ativar a Chave Móvel Digital",Para acompanhar o pedido online.,evidence,F1,,,,Ficção,,,,,4.6
-4.6,4,3,ec,task,Assistente do Espaço Cidadão faz o serviço com a pessoa,"Explica cada passo, do início ao fim, para que a pessoa o faça sozinha depois. Sem marcação. Há Espaços Cidadão dentro de Lojas de Cidadão.",evidence,G4,,,,Fonte pública,,,,,4.7
+4.X1,4,2,exc,exception,Falta um comprovativo,"Numa entrevista fictícia, a Teresa teve de voltar por isso.",evidence,F1,unassigned,,,Ficção,open,A pessoa tem de voltar e esperar outra vez.,,,2.1>action:nova ida
+4.5,4,3,func,task,"Na Segurança Social, sugerem ativar a Chave Móvel Digital","Assim, a Teresa pode acompanhar o pedido online.",evidence,F1,,,,Ficção,,,,,4.6
+4.6,4,3,ec,task,Assistente do Espaço Cidadão faz o serviço com a pessoa,"Explica cada passo, do início ao fim, para que a pessoa o faça sozinha depois. Não precisa de marcação. Há Espaços Cidadão dentro de Lojas de Cidadão.",evidence,G4,,,,Fonte pública,,,,,4.7
 4.7,4,4,cidadao,task,Ativa a Chave Móvel Digital com ajuda,,evidence,F1,,,,Ficção,,,,,5.1
-4.N1,4,4,cidadao,moment,Momento de encanto: «Agora já sei fazer isto em casa.»,Citação fictícia.,evidence,F1,,,,Ficção,,,,,
+4.N1,4,4,cidadao,moment,Momento de encanto: «Agora já sei fazer isto em casa.»,Esta citação é fictícia.,evidence,F1,,,,Ficção,,,,,
 5.1,5,1,cidadao,task,Sai da loja,,evidence,F1,,,,Ficção,,,,,5.5
 5.2,5,1,siga,system,"⚙️ Regista senhas, atendimentos e tempos",O conjunto de dados abertos não indica de onde vêm os números.,assumption,,,,,,,,,,5.3>system
-5.3,5,2,dados,system,Indicadores mensais por loja em dados abertos,"Senhas, atendimentos, desistências, tempos médios de espera e de atendimento.",evidence,G7,,,,Fonte pública,,,,,
+5.3,5,2,dados,system,Indicadores mensais por loja em dados abertos,"Mostram as senhas, os atendimentos, as desistências e os tempos médios de espera e de atendimento.",evidence,G7,,,,Fonte pública,,,,,
 5.5,5,2,cidadao,gate,"Quer reclamar, sugerir ou elogiar?",,evidence,G5,,,,Fonte pública,,,,,5.6>action:Sim; 5.9>action:Não
-5.6,5,3,digital,system,Livro Amarelo eletrónico,"Grátis. Com Chave Móvel Digital, Cartão de Cidadão ou dados validados por email; também anónimo. Em papel, no balcão da entidade.",evidence,G5,,,,Fonte pública,,,,,5.M1>message:comprovativo; 5.7>system
-5.M1,5,3,touch,message,✉️ Comprovativo de submissão,Chega por email.,evidence,G5,,Reclamação submetida,,Fonte pública,,,,,5.9
+5.6,5,3,digital,system,Livro Amarelo eletrónico,"É gratuito. Pode entrar com a Chave Móvel Digital, o Cartão de Cidadão ou dados validados por email, ou reclamar de forma anónima. Em papel, o livro está no balcão da entidade.",evidence,G5,,,,Fonte pública,,,,,5.M1>message:comprovativo; 5.7>system
+5.M1,5,3,touch,message,✉️ Comprovativo de submissão,O comprovativo chega por email.,evidence,G5,,Reclamação submetida,,Fonte pública,,,,,5.9
 5.7,5,4,backoffice,task,Entidade responsável responde,A resposta segue sempre por email.,evidence,G5,,Resposta enviada,,Fonte pública,,,,,5.M2>message:responde; 5.P1>artefact
-5.P1,5,4,regras,policy,"Livro Amarelo: resposta em 15 dias úteis, no máximo",Prazo da entidade responsável pelo serviço.,evidence,G5,,,,Fonte pública,,,,,
+5.P1,5,4,regras,policy,"Livro Amarelo: resposta em 15 dias úteis, no máximo",O prazo aplica-se à entidade responsável pelo serviço.,evidence,G5,,,,Fonte pública,,,,,
 5.9,5,4,cidadao,task,Espera pela resposta da Segurança Social,,evidence,F1,,,,Ficção,,,,,end
-5.10,5,4,backoffice,question,Como acompanha o cidadão o estado do pedido depois da loja?,Não está descrito nas fontes citadas.,tbc,,,,,,,,,,
+5.10,5,4,backoffice,question,Como acompanha o cidadão o estado do pedido depois da loja?,As fontes citadas não o descrevem.,tbc,,,,,,,,,,
 5.M2,5,5,touch,message,✉️ Resposta por email,,evidence,G5,,,,Fonte pública,,,,,end
-end,5,6,cidadao,end,Fim: assuntos tratados,,decided,,Daniel Santos,,,,,,,,
+end,5,6,cidadao,end,Fim: assuntos tratados,,decided,F1,,,,Ficção,,,,,

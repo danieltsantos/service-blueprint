@@ -10,20 +10,20 @@ Beta · Licence [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/) 
 
 ## Before you start
 
-- A Claude account. The free plan works.
-- A computer. Install the skill from the website or the desktop app.
-- Ten minutes.
+- You need a Claude account. The free plan works.
+- You need a computer, because you install the skill from the website or the desktop app.
+- It takes about ten minutes.
 
-## 1. Look at the example
+## 1. Look at the examples
 
 Open the [example](https://danieltsantos.github.io/service-blueprint/). It is an invented blueprint for installing broadband at a small shop.
 
-There is also an [example in European Portuguese](https://danieltsantos.github.io/service-blueprint/exemplo-pt.html): visiting a Loja de Cidadão. Its rules and figures come from public sources; the shop, the person and the interviews are fictional, and the **Fonte pública** chip fades the fiction. Its data files are in [`docs/exemplo-pt`](docs/exemplo-pt).
+There is also an [example in European Portuguese](https://danieltsantos.github.io/service-blueprint/exemplo-pt.html): visiting a Loja de Cidadão. Its rules and figures come from public sources; the shop, the person and the interviews are fictional, and the **Fonte pública** button fades the fiction. Its data files are in [`docs/exemplo-pt`](docs/exemplo-pt).
 
 Try this:
 
 - Tap a card to see where it comes from and where it leads.
-- Switch the **Release** chips on and off to see what ships in each release. The page says how many cards are showing.
+- Switch the **Release** buttons on and off to see what ships in each release. The page says how many cards are showing.
 - Tap **Spotlight unverified** to see what is still an assumption, and **Connectors** to hide the arrows.
 - Scroll to the end. **Needs a decision** lists what the team still has to decide.
 
@@ -54,12 +54,12 @@ Blueprints come out in English or European Portuguese. Ask in the language you w
 
 ## 4. What you get
 
-- A page with the blueprint, which you can open in Claude and share by link.
-- Two data files:
-  - `name-frame.yaml`: header, phases, lanes, sources and status models.
-  - `name-cards.csv`: one card per row. Opens in Excel or Google Sheets.
-- The list of what needs a decision, and the results of the quality checks.
-- A small credit to the template in the page footer. The blueprint itself is yours. Ask Claude to remove the credit if you need to.
+- You get a page with the blueprint, which you can open in Claude and share by link.
+- You get two data files:
+  - `name-frame.yaml` holds the header, phases, lanes, sources and status models.
+  - `name-cards.csv` holds one card per row. It opens in Excel or Google Sheets.
+- You get the list of what needs a decision, and the results of the quality checks.
+- The page footer carries a small credit to the template. The blueprint itself is yours. Ask Claude to remove the credit if you need to.
 
 To change something, ask in plain words: "add a lane for the delivery partner" or "phase 3 has too much detail". Claude changes the data and rebuilds the page.
 
@@ -69,7 +69,7 @@ To change something, ask in plain words: "add a lane for the delivery partner" o
 
 **Columns.** Each column starts with one customer action and its one touchpoint: a screen, a message or a person. Read left to right in time. Arrows start at whoever starts the interaction.
 
-**Markers.** A § card is a rule in force at that step, linked to the decision it drives. A ★ card is a key moment: the step that matters most to the customer, or a moment of delight. Orange stickies are pain points, placed in the lane of whoever feels them. Durations and other measures sit on the card they measure.
+**Markers.** A § card is a rule in force at that step, linked to the decision it governs. A ★ card is a key moment: the step that matters most to the customer, or a moment of delight. Orange stickies are pain points, placed in the lane of whoever feels them. Durations and other measures sit on the card they measure.
 
 **Where each card comes from.** Every card has a basis:
 
@@ -84,7 +84,7 @@ To change something, ask in plain words: "add a lane for the delivery partner" o
 
 **Exceptions.** Each exception has an owner and a risk for the customer. `unassigned` means nobody owns the problem. That is usually the most useful thing to discuss with the team.
 
-**Releases.** Cards without a tag ship in the first release. R2 and R3 come later. RX has no release yet. TBC is an open decision.
+**Releases.** Cards without a tag ship in the first release. Cards tagged R2 and R3 come later. Cards marked Later have no release yet. Cards marked To confirm wait for a decision.
 
 **Levels.** L0 is the end-to-end, strategic journey. L1 is one stage of that journey. L2 is the operational journey of a single touchpoint or vertical.
 
@@ -93,6 +93,7 @@ To change something, ask in plain words: "add a lane for the delivery partner" o
 - Say up front whether it is as-is or to-be, which level, and where the service starts and ends.
 - Pick one scenario and start with the most common path. A blueprint is not a process map. Problem paths that happen often get their own blueprint.
 - Review the skeleton before Claude adds exceptions. Changing the structure early is cheap.
+- Use the draft to start the stakeholder workshop, not to skip it. The value of a blueprint is the conversation between the teams that run the service.
 - Give sources. Without them Claude marks almost everything as an assumption, and it is right to.
 - Summaries made with AI count as secondary sources. Claude treats them that way.
 - Don't upload confidential client data without permission.
@@ -100,13 +101,13 @@ To change something, ask in plain words: "add a lane for the delivery partner" o
 
 ## Limitations
 
-- Beta. Tested on an example, not yet on real projects.
-- FigJam and Miro: the instructions exist but have not been tested.
+- The skill is in beta. It has been tested on examples, not yet on real projects.
+- The FigJam and Miro instructions exist but have not been tested.
 - On the free plan, a large blueprint can use up the usage limit in a single conversation.
 
 ## Feedback
 
-Open an [issue](https://github.com/danieltsantos/service-blueprint/issues). If you don't have a GitHub account, get in touch through [danieltsantos.com](https://danieltsantos.com).
+Tried it? Reach out to Daniel and tell him what worked and where it broke. A few lines are enough. Write through [danieltsantos.com](https://danieltsantos.com), or open an [issue](https://github.com/danieltsantos/service-blueprint/issues) if you use GitHub.
 
 ## What's in this repository
 

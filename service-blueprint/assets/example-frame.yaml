@@ -1,7 +1,7 @@
 # Invented example: broadband installation for small businesses, with a proposed AI assistant step.
 # It exists to show the format. None of its content is drawn from a real project.
 title: Sample broadband blueprint
-deliverable: L0 service blueprint for installing broadband at a small business site
+deliverable: End-to-end service blueprint (L0) for installing broadband at a small business
 owner: unassigned
 last_updated: 2026-11-07
 state: to-be
@@ -25,8 +25,8 @@ header:
       - "Let small businesses order broadband online and get a working line on the first visit."
   - heading: Main goals
     items:
-      - "Working line after the first technician visit"
-      - "Customer always knows the next step and its date"
+      - "The line works after the first technician visit."
+      - "The customer always knows the next step and its date."
   - heading: Core user need
     items:
       - "I need to know when my line will work, so I can plan around the downtime."
@@ -36,8 +36,8 @@ header:
       - "As a shop owner, I want to hear early if the visit is at risk."
   - heading: Metrics to move
     items:
-      - "% of installs working after the first visit"
-      - "Contacts per order before the line goes live"
+      - "Share of installations that work after the first visit"
+      - "Customer contacts per order before the line goes live"
 
 sources:
   - {id: S1, name: "Order flow specification", type: process, date: 2026-09}
@@ -47,9 +47,9 @@ sources:
 
 phases:
   - {id: "1", name: Order, subtitle: Customer orders online, cx: Orders and picks a slot, sla: "Slot offered at order time"}
-  - {id: "2", name: Pre-install checks, subtitle: Line test and visit confirmation, cx: Visit confirmed, sla: "Confirmation at least 48 hours before the visit"}
+  - {id: "2", name: Checks before the visit, subtitle: Line test and visit confirmation, cx: Visit confirmed, sla: "Confirmation at least 48 hours before the visit"}
   - {id: "3", name: Installation visit, subtitle: Technician installs on site, cx: Technician visits, sla: "Arrives within the booked window"}
-  - {id: "4", name: Activation and first bill, subtitle: Line goes live, cx: Line works and the first bill arrives, sla: "Live within 1 business day of the visit"}
+  - {id: "4", name: Activation and first bill, subtitle: Line goes live, cx: Line works and the first bill arrives, sla: "Live within one business day of the visit"}
 
 lanes:
   - {id: touch, name: "Customer messages", note: "Emails and texts", zone: evidence}

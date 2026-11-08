@@ -1,55 +1,55 @@
 id,phase,step,lane,type,title,body,basis,source,owner,cx_status,release,variant,exc_status,cx_risk,trigger,metric,links
 start,1,1,customer,start,Start: business needs broadband,,decided,S1,,,,,,,,,1.1
-1.1,1,1,customer,task,Enters the business address,On the website.,evidence,S2,,,,,,,,,1.2
+1.1,1,1,customer,task,Enters the business address,The customer types it on the website.,evidence,S2,,,,,,,,,1.2
 1.2,1,2,web,system,⚙️ Checks address coverage,,decided,S1,,,,,,,,,1.3>system
 1.3,1,3,netops,gate,Is fibre available at this address?,,evidence,S1,,,,,,,,,1.4>system:Fibre; 1.5>system:Copper only
-1.4,1,4,web,system,⚙️ Shows install slots,Slots come from contractor capacity.,decided,S1,,,,Fibre,,,,,1.6; 1.P1>artefact
-1.5,1,4,web,system,⚙️ Offers the copper plan,Lower speed. Same install flow.,decided,S4,,,R2,Copper,,,,,1.6
+1.4,1,4,web,system,⚙️ Shows installation slots,The slots come from contractor capacity.,decided,S1,,,,Fibre,,,,,1.6; 1.P1>artefact
+1.5,1,4,web,system,⚙️ Offers the copper plan,"The plan is slower, but the installation is the same.",decided,S4,,,R2,Copper,,,,,1.6
 1.6,1,5,customer,task,Picks a slot and pays,,evidence,S2,,,,,,,,,1.7>system
-1.N1,1,5,customer,friction,Slots clash with opening hours,Raised in interviews.,evidence,S2,,,,,,,,,
+1.N1,1,5,customer,friction,Slots clash with opening hours,Customers raised this in interviews.,evidence,S2,,,,,,,,,
 1.7,1,6,oms,system,⚙️ Creates the order,,decided,S1,,Order received,,,,,,,1.8>system
 1.8,1,6,dispatch,system,⚙️ Reserves the technician slot,,decided,S1,,Visit booked for {date},,,,,,,1.M1>message:notifies; 2.1>system
-1.M1,1,7,touch,message,✉️ Order confirmed,Visit date and what to prepare on site.,decided,S1,,,,,,,,,1.9
-1.9,1,7,customer,task,👀 Reads what to prepare,Router location and building access.,evidence,S2,,,,,,,,,
-1.X1,1,5,exc,exception,Address not found,A new-build address the coverage check does not know.,gap,,unassigned,,,,open,Customer abandons the order,,,
+1.M1,1,7,touch,message,✉️ Order confirmed,It gives the visit date and what to prepare on site.,decided,S1,,,,,,,,,1.9
+1.9,1,7,customer,task,👀 Reads what to prepare,The customer plans where the router goes and how the technician gets in.,evidence,S2,,,,,,,,,
+1.X1,1,5,exc,exception,Address not found,The coverage check does not know new-build addresses.,gap,,unassigned,,,,open,The customer abandons the order.,,,
 2.1,2,1,netops,system,⚙️ Tests the line remotely,,decided,S1,,,,,,,,,2.2>system
 2.2,2,2,netops,gate,Does the line pass the test?,,decided,S1,,,,,,,,,2.3>system:Pass; 2.4>action:Fail; 2.P1>artefact
 2.3,2,3,oms,system,⚙️ Confirms the visit,,decided,S1,,Visit confirmed,,,,,,,2.M1>message:notifies
 2.4,2,3,netops,task,Engineer fixes the line fault,Street work may move the visit.,assumption,S3,,,,,,,,,2.5>system
 2.5,2,4,oms,system,⚙️ Moves the visit date,,decided,S4,,,R2,,,,,,2.M2>message:notifies; 1.8>system:rebook
-2.M1,2,4,touch,message,✉️ Visit confirmed,Sent 48 hours before. Link to change the slot.,decided,S1,,,,,,,,,2.6
-2.M2,2,5,touch,message,✉️ Your visit has moved,New date and the reason.,proposed,,,,R2,,,,,,2.6
+2.M1,2,4,touch,message,✉️ Visit confirmed,"It is sent 48 hours before the visit, with a link to change the slot.",decided,S1,,,,,,,,,2.6
+2.M2,2,5,touch,message,✉️ Your visit has moved,It gives the new date and the reason.,proposed,,,,R2,,,,,,2.6
 2.6,2,5,customer,task,Wants a different slot,,evidence,S2,,,,,,,,,2.7
-2.7,2,6,ai-front,agent,🤖 Offers new slots,Reads contractor capacity. Books the slot the customer picks.,proposed,,,,RX,,,,Customer asks to change the visit,Rebooked without care,2.8>system
-2.8,2,6,ai-ops,agent,🤖 Checks the change is allowed,Changes close to the visit go to care with a summary.,proposed,,,,RX,,,,Rebook requested,Handoff rate,1.8>system:allowed; 2.9>action:handoff; 2.P2>artefact
-2.N1,2,7,ai-ops,question,How close to the visit can a customer rebook online?,No cut-off agreed.,tbc,,,,RX,,,,,,
+2.7,2,6,ai-front,agent,🤖 Offers new slots,It reads contractor capacity and books the slot the customer picks.,proposed,,,,RX,,,,The customer asks to change the visit.,Share of visits rebooked without customer care,2.8>system
+2.8,2,6,ai-ops,agent,🤖 Checks the change is allowed,Changes close to the visit go to customer care with a summary.,proposed,,,,RX,,,,The customer asks to rebook.,Share of requests handed to a person,1.8>system:allowed; 2.9>action:handoff; 2.P2>artefact
+2.N1,2,7,ai-ops,question,How close to the visit can a customer rebook online?,Nobody has agreed a cut-off yet.,tbc,,,,RX,,,,,,
 2.9,2,7,care,task,🛟 Care rebooks by phone,,decided,S1,,,,,,,,,1.8>system
-2.X1,2,5,exc,exception,Line test fails twice,No rule for when to cancel or offer copper.,gap,,unassigned,,,,open,Customer waits with no date,,,
+2.X1,2,5,exc,exception,Line test fails twice,There is no rule for when to cancel or offer copper.,gap,,unassigned,,,,open,The customer waits with no date.,,,
 3.1,3,1,dispatch,system,⚙️ Sends the day's route,,decided,S1,,,,,,,,,3.2
-3.2,3,2,tech,task,Arrives on site,Calls ahead.,evidence,S2,,,,,,,,,3.3
-3.3,3,3,customer,task,Lets the technician in,Shows where the router goes.,evidence,S2,,,,,,,,,3.4
-3.N1,3,3,customer,evidence,Shop closed for the morning,Interviewees closed while waiting for the technician.,evidence,S2,,,,,,,,,
-3.4,3,4,tech,task,Installs and tests the router,,decided,S1,,,,,,,,Median install time: 90 min,3.5; 3.D1>artefact
-3.D1,3,4,docs,artefact,Technician install checklist,,evidence,S1,,,,,,,,,
+3.2,3,2,tech,task,Arrives on site,The technician calls ahead.,evidence,S2,,,,,,,,,3.3
+3.3,3,3,customer,task,Lets the technician in,The customer shows where the router goes.,evidence,S2,,,,,,,,,3.4
+3.N1,3,3,customer,evidence,Shop closed for the morning,Interviewees closed their shop while they waited for the technician.,evidence,S2,,,,,,,,,
+3.4,3,4,tech,task,Installs and tests the router,,decided,S1,,,,,,,,Median installation time: 90 minutes,3.5; 3.D1>artefact
+3.D1,3,4,docs,artefact,Technician installation checklist,,evidence,S1,,,,,,,,,
 3.5,3,5,tech,gate,Does the line sync?,,decided,S1,,,,,,,,,3.6>system:YES; 3.7>action:NO
 3.6,3,6,oms,system,⚙️ Marks the order installed,,decided,S1,,Installed,,,,,,,4.1>system
 3.7,3,6,tech,task,Logs a fault and books a second visit,,decided,S1,,,,,,,,,1.8>system:rebook
-3.X1,3,2,exc,exception,Technician no-show,Contractor and care each expect the other to call the customer.,assumption,S3,unassigned,,,,open,Customer closes the shop for nothing,,,
-3.X2,3,4,exc,exception,No access to the building riser,Landlord holds the key.,decided,S1,Contractor dispatch,,,Shared building,workaround,Second visit and a later live date,,,
+3.X1,3,2,exc,exception,Technician no-show,Contractor dispatch and customer care each expect the other to call the customer.,assumption,S3,unassigned,,,,open,The customer closes the shop for nothing.,,,
+3.X2,3,4,exc,exception,No access to the building riser,The landlord holds the key.,decided,S1,Contractor dispatch,,,Shared building,workaround,The customer needs a second visit and gets the line later.,,,
 4.1,4,1,netops,system,⚙️ Activates the line,,decided,S1,,,,,,,,,4.2>system
 4.2,4,2,oms,system,⚙️ Marks the order live,,decided,S1,,Live,,,,,,,4.M1>message:notifies; 4.3>system
-4.M1,4,3,touch,message,✉️ You're live,Speed test link and support contacts.,decided,S1,,,,,,,,,4.4
+4.M1,4,3,touch,message,✉️ You're live,It includes a speed test link and support contacts.,decided,S1,,,,,,,,,4.4
 4.3,4,3,billing,system,💶 Starts billing from the live date,,decided,S1;S4,,,,,,,,,4.M2>message:notifies
 4.4,4,4,customer,task,👀 Runs a speed test,,evidence,S2,,,,,,,,,end
-4.X1,4,4,exc,exception,Billing starts before the line works,Order marked live after a failed sync.,assumption,S3,unassigned,,,,open,Customer pays for a line that does not work,,,
-4.M2,4,5,touch,message,✉️ First bill,Part-month charge plus the install fee.,decided,S1,,,,,,,,,4.6
-4.N1,4,5,customer,friction,Part-month charge looks like an error,Raised in interviews.,evidence,S2,,,,,,,,,
+4.X1,4,4,exc,exception,Billing starts before the line works,The order is marked live after a failed sync.,assumption,S3,unassigned,,,,open,The customer pays for a line that does not work.,,,
+4.M2,4,5,touch,message,✉️ First bill,It shows a part-month charge plus the installation fee.,decided,S1,,,,,,,,,4.6
+4.N1,4,5,customer,friction,Part-month charge looks like an error,Customers raised this in interviews.,evidence,S2,,,,,,,,,
 4.N2,4,5,billing,idea,Show the part-month calculation on the bill,,proposed,,,,,,,,,,
 4.6,4,6,customer,task,👀 Checks the first bill,,evidence,S2,,,,,,,,,end
 end,4,7,customer,end,End: line live and first bill understood,,decided,S1,,,,,,,,,
-1.P1,1,4,rules,policy,"Installs on weekdays only, 8:00 to 18:00",Contractor agreement. Shapes which slots the site can offer.,decided,S4,,,,,,,,,
+1.P1,1,4,rules,policy,"Installs on weekdays only, 8:00 to 18:00",This comes from the contractor agreement. It limits which slots the website can offer.,decided,S4,,,,,,,,,
 2.P1,2,2,rules,policy,A visit is confirmed only after the line test passes,,decided,S1,,,,,,,,,
-2.P2,2,6,rules,policy,"The assistant may offer and book slots, never cancel an order",Guardrail for the rebooking agent.,proposed,,,,RX,,,,,,
-3.N2,3,2,customer,moment,Key moment: the technician arrives inside the booked window,Interviewees judged the whole service on this.,evidence,S2,,,,,,,,,
-4.N3,4,4,customer,moment,Moment of delight: the first speed test beats the plan,Confirm with a post-install survey.,assumption,,,,,,,,,,
-3.N3,3,4,tech,friction,Job sheet has no building access details,Staff pain point. Confirm with technicians.,assumption,,,,,,,,,,
+2.P2,2,6,rules,policy,"The assistant may offer and book slots, never cancel an order",This is the guardrail for the rebooking agent.,proposed,,,,RX,,,,,,
+3.N2,3,2,customer,moment,Key moment: the technician arrives inside the booked window,Interviewees judged the whole service on this moment.,evidence,S2,,,,,,,,,
+4.N3,4,4,customer,moment,Moment of delight: the first speed test beats the plan,Confirm this with a survey after installation.,assumption,,,,,,,,,,
+3.N3,3,4,tech,friction,Job sheet has no building access details,This is a pain point for staff. Confirm it with technicians.,assumption,,,,,,,,,,

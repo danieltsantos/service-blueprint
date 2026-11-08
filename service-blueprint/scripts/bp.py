@@ -252,7 +252,7 @@ def check(frame, cards, missing_columns=()):
             gaps = [f for f in ("exc_status", "owner", "cx_risk") if not c[f]]
             if gaps:
                 d.append(f"Exception {c['id']} is missing {', '.join(gaps)}")
-    add("Q4", "Exceptions have status, owner and CX risk", d)
+    add("Q4", "Exceptions have status, owner and risk to the customer", d)
 
     # Q5 basis and sources
     d = []

@@ -78,7 +78,7 @@ Full notation, card types, connectors and examples are in `references/notation.m
 
 **Header block**: title, deliverable, owner, last updated, state, layer, status, then boxes for executive description, goals, core user need, key user stories, metrics to move, and references (delivery, design, documents).
 
-**Timeline rows**: phases left to right. Each phase has a name, a short subtitle, a CX line (what the customer experiences, in their terms) and an SLA line (time or service-level expectation, or `TBC`).
+**Timeline rows**: phases left to right. Each phase has a name, a short subtitle, a customer line (`cx`: what the customer experiences, in their terms) and a service level line (`sla`: the time or service level the customer can expect, or empty when nobody has set one). The page labels them Customer and Service level.
 
 **Lanes**, top to bottom by default:
 
@@ -193,12 +193,14 @@ If the user named no target, default to the HTML view and offer FigJam. Drawing 
 Cards are for internal teams scanning a large board.
 
 - Title: the ID, then a short verb phrase. "1.6 Picks a slot and pays." Gates are questions. "2.2 Does the line pass the test?"
-- Body: one to three short lines naming the actor, the object and the condition.
+- Body: one to three short, full sentences that name the actor, the object and the condition.
+- Plain language, for readers outside the team. Write all prose as full sentences that follow grammar: card bodies, risks, notes, lane notes, header text and phase lines. Titles, headings, labels and metrics may be short phrases.
+- No jargon. Spell out an acronym unless every reader uses it daily (SMS, PDF), and never invent one. Use the everyday word: "installation", not "install"; "minutes", not "min".
 - Short declarative sentences. No em-dashes. No corporate filler. Avoid these words: leverage, alignment, seamless, actionable, holistic, robust, transform, proactively, ecosystem, drive, stakeholder.
 - Keep the source's own terms for systems, statuses and roles. Do not rename them to sound cleaner.
 - In European Portuguese, use the glossary in `references/notation.md`.
-- Write the board for its readers, never for the user you are working with. Notes about your own work stay in your reply: what you could not open or read, which inputs you used or set aside, how you calculated a figure, what you inferred while building. Keep them out of cards, the header, the SLA lines and the comments in the frame and card files, because those files and the page get shared and published as they are.
-- State an unknown as a fact about the service, in the reader's terms: "Mechanism to confirm", "Not published", "Not described in the cited sources" (pt-PT: "Por confirmar", "Não publicado", "Não está descrito nas fontes citadas"). Never "I could not read", "my calculation" or "in the sources I read".
+- Write the board for its readers, never for the user you are working with. Notes about your own work stay in your reply: what you could not open or read, which inputs you used or set aside, how you calculated a figure, what you inferred while building. Keep them out of cards, the header, the service level lines and the comments in the frame and card files, because those files and the page get shared and published as they are.
+- State an unknown as a full sentence about the service, in the reader's terms: "Nobody has confirmed how the ticket is called.", "No deadline is published.", "The cited sources do not describe it." (pt-PT: "Falta confirmar como a senha é chamada.", "Não há prazo publicado.", "As fontes citadas não o descrevem."). Never "I could not read", "my calculation" or "in the sources I read".
 
 ## 12. Quality checks
 
@@ -207,7 +209,7 @@ Run these before delivering. They are also the checklist for critique mode. The 
 1. ★ Every customer action links to at least one card below the line of interaction, and every phase has work below the line of visibility.
 2. ★ Every gate has a question and at least two labelled branches that lead somewhere.
 3. ★ Every customer-visible status is set by a card and exists in a status model.
-4. ★ Every exception has a status, an owner (or `unassigned`) and a CX risk.
+4. ★ Every exception has a status, an owner (or `unassigned`) and a risk to the customer.
 5. ★ Every card has a basis, and every `evidence` card cites a source that exists.
 6. ★ IDs are unique; links resolve; no orphan cards.
 7. All three lines are present and no backstage actor sits above the line of visibility.

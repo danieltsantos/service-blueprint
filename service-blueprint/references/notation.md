@@ -31,7 +31,7 @@ layer: L0                       # L0 end-to-end | L1 stage or sub-journey | L2 o
 parent:                         # L1 and L2 only: the blueprint this one expands
   title: ""                     #   e.g. "Broadband installation L0"
   expands: ""                   #   parent card IDs, e.g. "2.1-2.5"
-status: WIP                     # WIP | review | agreed
+status: WIP                     # WIP | review | agreed (shown as Work in progress, In review, Agreed)
 language: en                    # en | pt-PT; also sets the language of the rendered page's interface and credit
 lane_policy: >                  # one line on how third-party and mixed-visibility actors are placed
   The contractor's technician meets the customer on site, so sits in a frontstage lane.
@@ -58,7 +58,7 @@ sources:
 
 phases:
   - id: 2
-    name: Pre-install checks
+    name: Checks before the visit
     subtitle: Line test and visit confirmation
     cx: Visit confirmed
     sla: Confirmation at least 48 hours before the visit
@@ -126,7 +126,7 @@ CSV, UTF-8, one row per card. Leave cells empty when they do not apply. Quote ce
 | `decision` | Decision sticky ("DECIDED: ...") | Green sticky |
 | `gap` | Gap sticky ("GAP: ...") | Pink sticky |
 | `friction` | Pain point, usually from research. Put it in the lane of whoever feels it: customer or staff | Orange sticky |
-| `idea` | Improvement idea or "ideal CX" note | Light green sticky |
+| `idea` | Improvement idea or "ideal experience" note | Light green sticky |
 | `moment` | Key moment: a step that matters most to the customer or the outcome, or a moment of delight. Say which in the body | Pink sticky with a star |
 | `evidence` | A research finding attached to a step | Teal box with source |
 | `policy` | A rule in force at this step: law, regulation, internal policy, business rule, agent guardrail. Name its source | Grey-blue box with a § marker, in the policies lane |
@@ -184,7 +184,7 @@ An agent action sits in `ai-front` (in view of the customer) or `ai-ops` (out of
 id,phase,step,lane,type,title,body,basis,source,owner,cx_status,release,variant,exc_status,cx_risk,trigger,metric,links
 3.4,3,4,ai-front,agent,🤖 Proposes a fix,Answers from the help centre and the account's plan. Shows sources.,proposed,,,,,,,,User asks a billing question in chat,Resolved without handoff,3.5>system
 3.5,3,4,ai-ops,agent,🤖 Confidence check,Below threshold or policy topic → hand to a human with the chat summary.,proposed,,,,,,,,Answer drafted,Handoff rate,3.6>action:handoff
-3.6,3,5,care,task,Care agent picks up the chat,Reads the summary and replies. Queue SLA not defined yet.,assumption,,,,,,,,,,
+3.6,3,5,care,task,Care agent picks up the chat,Reads the summary and replies. Nobody has set how fast the queue must answer.,assumption,,,,,,,,,,
 3.X1,3,5,exc,exception,Handoff loses context,Summary missing or wrong. Customer repeats themselves.,assumption,,unassigned,,,,open,Customer repeats the problem and loses trust,,,
 ```
 
@@ -210,7 +210,10 @@ Use Portuguese as written in Portugal today, never Brazilian Portuguese. Vocabul
 | Gate | Ponto de decisão |
 | Exception / edge case | Exceção / caso-limite |
 | Owner | Responsável |
-| CX risk | Risco para o cliente |
+| Risk to customer | Risco para o cliente |
+| Customer sees | Estado visível |
+| Service level | Nível de serviço |
+| To confirm | Por confirmar |
 | Open question | Questão em aberto |
 | Assumption | Pressuposto |
 | Evidence | Evidência |

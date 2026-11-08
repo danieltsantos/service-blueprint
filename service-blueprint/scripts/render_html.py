@@ -50,9 +50,12 @@ UI = {
         "lang": "en", "phases": "Phases", "phase": "Phase", "lines": LINE_LABEL, "types": TYPE_LABEL,
         "owner": "Owner", "updated": "Updated", "state": "State", "layer": "Layer", "status": "Status",
         "expands": "Expands", "cards_word": "cards", "by": "By", "licence": "Licence", "licensed_under": "Licensed under",
-        "cx_status": "CX status", "trigger": "Trigger", "metric": "Metric", "cx_risk": "CX risk", "source": "Source",
+        "cx_status": "Customer sees", "trigger": "Trigger", "metric": "Metric", "cx_risk": "Risk to customer", "source": "Source",
         "unassigned": "unassigned",
-        "basis": {"proposed": "proposed", "assumption": "assumption", "tbc": "TBC", "gap": "gap"},
+        "basis": {"proposed": "proposed", "assumption": "assumption", "tbc": "to confirm", "gap": "gap"},
+        "rel_names": {"RX": "Later", "TBC": "To confirm"},
+        "status_names": {"WIP": "Work in progress", "review": "In review", "agreed": "Agreed"},
+        "phase_row": "Customer · Service level", "phase_cx": "Customer", "phase_sla": "Service level", "to_confirm": "to confirm",
         "exc": {"open": "open", "workaround": "workaround", "risk": "risk", "decided": "decided"},
         "src": {},
         "link_types": [("action", "Action flow"), ("system", "System / dependency"),
@@ -60,7 +63,7 @@ UI = {
         "release": "Release", "variant": "Variant", "all": "All", "show": "Show",
         "connectors": "Connectors", "spotlight": "Spotlight unverified",
         "count_tpl": "Showing {shown} of {total} cards",
-        "hint": "Hover or tap a card to trace its connections. Tap again to clear. Release and variant chips fade the cards they leave out.",
+        "hint": "Hover or tap a card to trace its connections. Tap again to clear. Release and variant buttons fade the cards they leave out.",
         "needs": "Needs a decision", "checks": "Quality checks", "models": "Status models", "sources": "Sources",
         "kinds": {"Exception": "Exception", "Open question": "Open question", "Gap": "Gap"},
         "th": ("State", "Set by", "Cards"), "none": "none", "none_cap": "None",
@@ -73,7 +76,10 @@ UI = {
         "expands": "Expande", "cards_word": "cartões", "by": "Autoria", "licence": "Licença", "licensed_under": "Licenciado sob",
         "cx_status": "Estado visível", "trigger": "Gatilho", "metric": "Métrica", "cx_risk": "Risco para o cliente",
         "source": "Fonte", "unassigned": "por atribuir",
-        "basis": {"proposed": "proposto", "assumption": "pressuposto", "tbc": "TBC", "gap": "lacuna"},
+        "basis": {"proposed": "proposto", "assumption": "pressuposto", "tbc": "por confirmar", "gap": "lacuna"},
+        "rel_names": {"RX": "Mais tarde", "TBC": "Por confirmar"},
+        "status_names": {"WIP": "Em curso", "review": "Em revisão", "agreed": "Acordado"},
+        "phase_row": "Cliente · Nível de serviço", "phase_cx": "Cliente", "phase_sla": "Nível de serviço", "to_confirm": "por confirmar",
         "exc": {"open": "aberta", "workaround": "contorno", "risk": "risco", "decided": "decidida"},
         "src": {"primary": "primária", "process": "processo", "decision": "decisão", "concept": "conceito",
                 "ai-synthesis": "síntese de IA"},
@@ -82,7 +88,7 @@ UI = {
         "release": "Release", "variant": "Variante", "all": "Todas", "show": "Mostrar",
         "connectors": "Conectores", "spotlight": "Destacar não verificados",
         "count_tpl": "A mostrar {shown} de {total} cartões",
-        "hint": "Passe o cursor ou toque num cartão para seguir as ligações. Toque outra vez para limpar. Os chips de release e de variante esbatem os cartões que ficam de fora.",
+        "hint": "Passe o cursor ou toque num cartão para seguir as ligações. Toque outra vez para limpar. Os botões de release e de variante esbatem os cartões que ficam de fora.",
         "needs": "Precisa de decisão", "checks": "Verificações de qualidade", "models": "Modelos de estados",
         "sources": "Fontes",
         "kinds": {"Exception": "Exceção", "Open question": "Questão em aberto", "Gap": "Lacuna"},
@@ -181,7 +187,7 @@ def card_html(c, L=UI["en"]):
     rel = c["release"]
     badges = []
     if rel:
-        badges.append(f'<span class="pill rel rel-{E(rel)}">{E(rel)}</span>')
+        badges.append(f'<span class="pill rel rel-{E(rel)}">{E(L["rel_names"].get(rel, rel))}</span>')
     for v in [v.strip() for v in c["variant"].split(";") if v.strip()]:
         badges.append(f'<span class="pill var">{E(v)}</span>')
     if c["basis"] in bp.UNVERIFIED:
@@ -244,12 +250,12 @@ def build(frame, cards):
                     f'<div class="pname">{E(p.get("name", ""))}</div>'
                     f'<div class="psub">{E(p.get("subtitle", ""))}</div></div>')
     r += 1
-    rows.append(f'<div class="rlabel head" style="grid-row:{r}">CX · SLA</div>')
+    rows.append(f'<div class="rlabel head" style="grid-row:{r}">{L["phase_row"]}</div>')
     for p in frame["phases"]:
         start, n = cols[p["id"]]
         rows.append(f'<div class="timeline" style="grid-row:{r};grid-column:{start + 2} / span {n}">'
-                    f'<div class="cx"><b>CX</b> {E(str(p.get("cx", "")))}</div>'
-                    f'<div class="sla"><b>SLA</b> {E(str(p.get("sla", "") or "TBC"))}</div></div>')
+                    f'<div class="cx"><b>{L["phase_cx"]}</b> {E(str(p.get("cx", "")))}</div>'
+                    f'<div class="sla"><b>{L["phase_sla"]}</b> {E(str(p.get("sla", "") or L["to_confirm"]))}</div></div>')
     r += 1
 
     def line_row(kind):
@@ -289,7 +295,8 @@ def page(frame, cards):
     L = ui_for(frame)
     title = str(frame.get("title", "Service blueprint"))
     meta_bits = [(L["owner"], frame.get("owner")), (L["updated"], frame.get("last_updated")),
-                 (L["state"], frame.get("state")), (L["layer"], frame.get("layer")), (L["status"], frame.get("status"))]
+                 (L["state"], frame.get("state")), (L["layer"], frame.get("layer")),
+                 (L["status"], L["status_names"].get(str(frame.get("status", "")), frame.get("status")))]
     parent = frame.get("parent") or {}
     if isinstance(parent, dict) and parent.get("title"):
         meta_bits.append((L["expands"], f'{parent["title"]}' + (f' {L["cards_word"]} {parent["expands"]}' if parent.get("expands") else "")))
@@ -322,7 +329,7 @@ def page(frame, cards):
     if any(c["release"] for c in cards):
         order = ["R1", "R2", "R3", "RX", "TBC"]
         rcount = {r: sum((c["release"] or "R1") == r for c in cards) for r in order}
-        chips = "".join(f'<button type="button" class="chip" data-rel="{r}" aria-pressed="true">{r} <span>{rcount[r]}</span></button>'
+        chips = "".join(f'<button type="button" class="chip" data-rel="{r}" aria-pressed="true">{E(L["rel_names"].get(r, r))} <span>{rcount[r]}</span></button>'
                         for r in order if rcount[r])
         rel_ctrl = f'<div class="cgroup" role="group" aria-label="{L["release"]}"><span class="clabel">{L["release"]}</span>{chips}</div>'
 
@@ -493,8 +500,8 @@ h3 {{ font-family: var(--f-display); font-weight: 600; font-size: 15px; text-tra
 .cbody {{ color: var(--fg); margin-top: 2px; }}
 .status {{ margin-top: 5px; font-size: 11.5px; }}
 .status span {{ font-family: var(--f-mono); font-size: 10px; color: var(--muted); }}
-.cmeta {{ margin: 5px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 1px 6px; font-size: 11.5px; }}
-.cmeta dt {{ font-family: var(--f-mono); font-size: 10px; color: var(--muted); padding-top: 1px; }}
+.cmeta {{ margin: 5px 0 0; display: grid; grid-template-columns: fit-content(34%) minmax(0, 1fr); gap: 2px 6px; font-size: 11.5px; }}
+.cmeta dt {{ font-family: var(--f-mono); font-size: 10px; color: var(--muted); padding-top: 1px; overflow-wrap: normal; word-break: normal; }}
 .cmeta dd {{ margin: 0; min-width: 0; }}
 .unowned {{ color: var(--warn); font-weight: 700; }}
 .pill {{ font-family: var(--f-mono); font-size: 10px; line-height: 1; padding: 3px 5px; border-radius: 3px; background: var(--band); color: var(--muted); border: 1px solid var(--rule); }}
